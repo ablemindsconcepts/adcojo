@@ -1,1105 +1,833 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nigeria Democratic Congress (NDC) - Official Membership Portal</title>
+    <title>New Nigeria Movement (NNM) - Official Portal</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        ndcBlue: '#560591',
-                        ndcBlueLight: '#7313b8',
-                        ndcRed: '#DC2626',
-                        ndcGold: '#F59E0B',
-                        ndcDark: '#560591'
+                        nnm: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#10b981',
+                            600: '#0b6623',
+                            700: '#054414',
+                            800: '#03300e',
+                            900: '#022009',
+                        },
+                        gold: {
+                            500: '#eab308',
+                            600: '#ca8a04'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
                     }
                 }
             }
         }
     </script>
     <style>
-        .map-pattern {
-            background-image: radial-gradient(rgba(86, 5, 145, 0.08) 1px, transparent 1px);
-            background-size: 24px 24px;
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-hero {
+            background: linear-gradient(135deg, rgba(5, 68, 20, 0.95) 0%, rgba(11, 102, 35, 0.9) 100%), url('https://placehold.co/1920x1080/054414/ffffff?text=New+Nigeria+Movement') center/cover no-repeat;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade {
-            animation: fadeIn 0.3s ease-out forwards;
-        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #0b6623; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #054414; }
     </style>
 </head>
-<body class="h-full bg-slate-50 text-slate-800 font-sans antialiased flex flex-col justify-between map-pattern">
+<body class="bg-gray-50 text-gray-800 antialiased min-h-screen flex flex-col justify-between">
 
-    <!-- Top Emergency Banner -->
-    <div id="portalBanner" class="bg-ndcRed text-white px-4 py-2 text-center text-sm font-semibold hidden flex items-center justify-center gap-2 shadow-inner">
-        <i class="fa-solid fa-bullhorn animate-bounce"></i>
-        <span id="portalBannerText">National Secretariat Announcement: All Ward Coordinators must submit monthly mobilization reports by Friday.</span>
-        <button onclick="document.getElementById('portalBanner').classList.add('hidden')" class="ml-4 text-white hover:text-ndcGold font-bold">&times;</button>
+    <!-- Top Notification Bar -->
+    <div class="bg-nnm-700 text-white text-xs sm:text-sm py-2 px-4 text-center font-medium shadow-inner flex items-center justify-center gap-2">
+        <i class="fa-solid fa-bullhorn text-gold-500 animate-pulse"></i>
+        <span>Welcome Comrades! Rescue it, Rebuild it, Restore it. New Nigeria Is Possible!</span>
+        <button onclick="switchTab('register')" class="ml-2 bg-gold-500 text-nnm-900 text-xs px-2.5 py-0.5 rounded-full font-bold hover:bg-yellow-400 transition">Join Us Now</button>
     </div>
 
-    <!-- Header Navigation -->
-    <header class="bg-ndcBlue text-white shadow-md sticky top-0 z-50 border-b border-purple-900">
+    <!-- Navigation Bar -->
+    <header class="bg-white sticky top-0 z-50 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
-                <!-- Logo & Brand (Using official image link) -->
+                <!-- Logo & Brand -->
                 <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
-                    <div class="bg-white p-1 rounded-lg shadow-md flex items-center gap-2 border border-purple-600">
-                        <img src="https://membership.ndcnigeria.com/static/img/ADA-logo.be9311d4ce83.webp" alt="NDC Logo" class="h-10 w-auto object-contain">
+                    <div class="w-12 h-12 rounded-full bg-nnm-600 flex items-center justify-center text-white font-black text-xl shadow-lg border-2 border-gold-500">
+                        NNM
                     </div>
                     <div>
-                        <span class="text-lg font-black tracking-wide text-white block leading-tight">NIGERIA DEMOCRATIC CONGRESS</span>
-                        <span class="text-xs text-ndcGold font-semibold tracking-wider uppercase">Official Membership Portal</span>
+                        <span class="text-lg sm:text-xl font-extrabold text-nnm-700 tracking-tight block leading-tight">NEW NIGERIA MOVEMENT</span>
+                        <span class="text-xs text-gray-500 font-semibold tracking-wider">RESCUE • REBUILD • RESTORE</span>
                     </div>
                 </div>
 
-                <!-- Desktop Nav -->
-                <nav class="hidden md:flex space-x-6 items-center font-medium text-sm">
-                    <button onclick="switchTab('home')" id="nav-home" class="text-ndcGold transition hover:text-white pb-1 border-b-2 border-ndcGold">Home</button>
-                    <button onclick="switchTab('register')" id="nav-register" class="text-slate-200 transition hover:text-ndcGold">Register</button>
-                    <button onclick="switchTab('verify')" id="nav-verify" class="text-slate-200 transition hover:text-ndcGold">Verify ID / NIN</button>
-                    <button onclick="switchTab('member')" id="nav-member" class="text-slate-200 transition hover:text-ndcGold">Member Portal</button>
-                    <button onclick="switchTab('admin')" id="nav-admin" class="bg-ndcRed text-white px-3.5 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-lock text-xs"></i> Secretariat Login
-                    </button>
+                <!-- Desktop Menu -->
+                <nav class="hidden lg:flex items-center space-x-1 font-medium text-sm">
+                    <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-3 py-2 rounded-lg text-nnm-700 hover:bg-nnm-50 transition active-tab">Home</button>
+                    <button onclick="switchTab('about')" id="nav-about" class="nav-btn px-3 py-2 rounded-lg text-gray-600 hover:bg-nnm-50 hover:text-nnm-700 transition">About Us</button>
+                    <button onclick="switchTab('structure')" id="nav-structure" class="nav-btn px-3 py-2 rounded-lg text-gray-600 hover:bg-nnm-50 hover:text-nnm-700 transition">Structure</button>
+                    <button onclick="switchTab('register')" id="nav-register" class="nav-btn px-3 py-2 rounded-lg text-gray-600 hover:bg-nnm-50 hover:text-nnm-700 transition">Register</button>
+                    <button onclick="switchTab('member')" id="nav-member" class="nav-btn px-3 py-2 rounded-lg text-gray-600 hover:bg-nnm-50 hover:text-nnm-700 transition"><i class="fa-solid fa-id-card mr-1 text-gold-600"></i> Member Portal</button>
+                    <button onclick="switchTab('admin')" id="nav-admin" class="nav-btn px-3 py-2 rounded-lg bg-nnm-700 text-white hover:bg-nnm-800 transition ml-2 shadow"><i class="fa-solid fa-user-shield mr-1"></i> Admin HQ</button>
                 </nav>
 
                 <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button onclick="toggleMobileMenu()" class="text-slate-200 hover:text-white focus:outline-none p-2">
+                <div class="lg:hidden flex items-center">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2 rounded-md text-gray-700 hover:text-nnm-700 hover:bg-gray-100 focus:outline-none">
                         <i class="fa-solid fa-bars text-2xl"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Nav Menu -->
-        <div id="mobileMenu" class="hidden md:hidden bg-ndcBlueLight border-t border-purple-900 px-4 pt-3 pb-4 space-y-2">
-            <button onclick="switchTab('home'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded text-white font-medium hover:bg-purple-900">Home</button>
-            <button onclick="switchTab('register'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded text-white font-medium hover:bg-purple-900">Register</button>
-            <button onclick="switchTab('verify'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded text-white font-medium hover:bg-purple-900">Verify ID / NIN</button>
-            <button onclick="switchTab('member'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded text-white font-medium hover:bg-purple-900">Member Portal</button>
-            <button onclick="switchTab('admin'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded bg-ndcRed text-white font-bold text-center">Secretariat Login</button>
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchTab('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-nnm-700 bg-nnm-50">Home</button>
+            <button onclick="switchTab('about'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">About Us</button>
+            <button onclick="switchTab('structure'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Structure</button>
+            <button onclick="switchTab('register'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Register Membership</button>
+            <button onclick="switchTab('member'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50"><i class="fa-solid fa-id-card mr-2 text-gold-600"></i> Member Portal</button>
+            <button onclick="switchTab('admin'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium bg-nnm-700 text-white"><i class="fa-solid fa-user-shield mr-2"></i> Admin HQ</button>
         </div>
     </header>
 
     <!-- Main Content Area -->
     <main class="flex-grow">
 
-        <!-- TAB 1: HOME / LANDING -->
-        <section id="tab-home" class="tab-content animate-fade">
-            <!-- Hero Slideshow Banner -->
-            <div class="relative bg-ndcBlue text-white overflow-hidden shadow-xl">
-                <div class="absolute inset-0 z-0 opacity-25">
-                    <img id="heroImage" src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=1600&q=80" alt="Mobilization" class="w-full h-full object-cover transition-all duration-1000">
-                </div>
-                <div class="absolute inset-0 bg-gradient-to-r from-ndcBlue via-ndcBlue/90 to-transparent z-10"></div>
-                
-                <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 flex flex-col items-start">
-                    <span class="bg-ndcRed text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4 shadow">
-                        <i class="fa-solid fa-bullhorn mr-1"></i> Official Grassroots Portal
+        <!-- ================= 1. HOME TAB ================= -->
+        <div id="tab-home" class="tab-content">
+            <!-- Hero Banner -->
+            <section class="gradient-hero text-white py-20 lg:py-32 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden">
+                <div class="max-w-4xl mx-auto relative z-10">
+                    <span class="bg-gold-500 text-nnm-900 font-bold text-xs sm:text-sm uppercase tracking-wider px-4 py-1.5 rounded-full inline-block mb-6 shadow-md">
+                        Official Digital Headquarters
                     </span>
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight max-w-3xl mb-6">
-                        Building a Greater Nigeria Through <span class="text-ndcGold">Democratic Power</span>
+                    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+                        WELCOME TO NEW NIGERIA MOVEMENT
                     </h1>
-                    <p class="text-lg text-slate-200 max-w-2xl mb-8 leading-relaxed">
-                        Join the Nigeria Democratic Congress (NDC) today. Register with your NIN, obtain your secure digital membership card, contribute to party development, and participate in grassroots transformation.
+                    <p class="text-lg sm:text-2xl font-light text-nnm-100 mb-8 max-w-2xl mx-auto">
+                        Welcome to the Family! You have joined a rescue mission. Together, we will <span class="font-bold text-gold-400">Rescue it, Rebuild it, and Restore it</span>.
                     </p>
-                    <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                        <button onclick="switchTab('register')" class="bg-ndcGold text-ndcDark font-bold px-8 py-3.5 rounded-lg shadow-lg hover:bg-amber-400 transition text-center flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-user-plus"></i> Register as Member
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button onclick="switchTab('register')" class="bg-gold-500 hover:bg-yellow-400 text-nnm-900 font-bold px-8 py-4 rounded-xl shadow-xl transition transform hover:-translate-y-0.5 text-lg flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-user-plus"></i> Register as a Member
                         </button>
-                        <button onclick="switchTab('verify')" class="bg-white/10 border border-white/30 text-white font-semibold px-8 py-3.5 rounded-lg hover:bg-white/20 transition text-center flex items-center justify-center gap-2 backdrop-blur-sm">
-                            <i class="fa-solid fa-id-card"></i> Verify Membership / NIN
+                        <button onclick="switchTab('member')" class="bg-white/10 hover:bg-white/20 border-2 border-white text-white font-bold px-8 py-4 rounded-xl backdrop-blur-sm transition text-lg flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-right-to-bracket"></i> Member Login
                         </button>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- Quick Stats & Features Grid -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-black text-ndcBlue mb-3">Portal Services & Infrastructure</h2>
-                    <p class="text-slate-600 max-w-xl mx-auto">Empowering 774 Local Government Areas and 8,812 Wards across the Federation with digital precision.</p>
+            <!-- Slogan Banner -->
+            <section class="bg-gold-500 py-6 px-4 text-center text-nnm-900 font-black text-xl sm:text-2xl tracking-wider shadow-inner">
+                NEW NIGERIA IS POSSIBLE! • TOGETHER WE CAN! • COMRADES ON BOARD!
+            </section>
+
+            <!-- Core Pillars -->
+            <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-extrabold text-nnm-700 sm:text-4xl">Our Three-Fold Rescue Mission</h2>
+                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Grounded in integrity, transparency, and grassroots empowerment across all 774 Local Government Areas.</p>
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition group">
-                        <div class="w-14 h-14 bg-purple-50 text-ndcBlueLight rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-ndcBlue group-hover:text-white transition">
-                            <i class="fa-solid fa-fingerprint"></i>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-nnm-600 hover:shadow-xl transition">
+                        <div class="w-14 h-14 bg-nnm-50 text-nnm-600 rounded-xl flex items-center justify-center text-2xl font-bold mb-6">
+                            <i class="fa-solid fa-shield-heart"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-ndcBlue mb-3">NIN-Integrated Registration</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">Seamless enrollment verifying identity via 10 or 11-digit National Identification Number (NIN) with instant database logging.</p>
+                        <h3 class="text-2xl font-bold text-nnm-700 mb-3">1. Rescue It</h3>
+                        <p class="text-gray-600 leading-relaxed">Liberating our nation from poor governance, insecurity, corruption, and systemic decay by mobilizing conscious Nigerian citizens at the polling unit level.</p>
                     </div>
-
-                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition group">
-                        <div class="w-14 h-14 bg-red-50 text-ndcRed rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-ndcRed group-hover:text-white transition">
-                            <i class="fa-solid fa-id-badge"></i>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-gold-500 hover:shadow-xl transition">
+                        <div class="w-14 h-14 bg-yellow-50 text-gold-600 rounded-xl flex items-center justify-center text-2xl font-bold mb-6">
+                            <i class="fa-solid fa-city"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-ndcBlue mb-3">Digital Membership Card</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">Instant generation of secure high-contrast digital ID cards complete with QR verification and ward hierarchy codes.</p>
+                        <h3 class="text-2xl font-bold text-nnm-700 mb-3">2. Rebuild It</h3>
+                        <p class="text-gray-600 leading-relaxed">Establishing robust economic foundations, world-class infrastructure, quality healthcare, and sustainable educational frameworks for future generations.</p>
                     </div>
-
-                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition group">
-                        <div class="w-14 h-14 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-ndcGold group-hover:text-ndcDark transition">
-                            <i class="fa-solid fa-wallet"></i>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-nnm-700 hover:shadow-xl transition">
+                        <div class="w-14 h-14 bg-nnm-50 text-nnm-700 rounded-xl flex items-center justify-center text-2xl font-bold mb-6">
+                            <i class="fa-solid fa-scale-balanced"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-ndcBlue mb-3">Paystack Dues Gateway</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">Secure automated dues collection and transparent financial ledger tracking categorized by Ward, LGA, and State.</p>
+                        <h3 class="text-2xl font-bold text-nnm-700 mb-3">3. Restore It</h3>
+                        <p class="text-gray-600 leading-relaxed">Restoring national dignity, rule of law, institutional integrity, social justice, and international respect for the green-white-green flag.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Financial Transparency & Public News Preview -->
+            <section class="bg-nnm-50 py-16 px-4 sm:px-6 lg:px-8 border-t border-b border-green-100">
+                <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <span class="text-nnm-600 font-bold uppercase tracking-widest text-xs">Public Accountability</span>
+                        <h2 class="text-3xl font-extrabold text-nnm-700 mt-2 mb-4">Transparent Financial Stewardship</h2>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Unlike traditional political setups, the New Nigeria Movement operates on open-book principles. All member dues, authorized contributions, and project expenditures are tracked digitally with full audit trails.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                                <span class="text-xs text-gray-500 block">Total Movement Fund</span>
+                                <span class="text-2xl font-black text-nnm-700">₦48,250,000</span>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                                <span class="text-xs text-gray-500 block">Registered Comrades</span>
+                                <span id="home-member-count" class="text-2xl font-black text-gold-600">1,245,890</span>
+                            </div>
+                        </div>
+                        <button onclick="switchTab('register')" class="bg-nnm-700 text-white font-bold px-6 py-3 rounded-xl hover:bg-nnm-800 transition shadow">Become a Registered Member</button>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-200">
+                        <h3 class="text-xl font-bold text-nnm-700 mb-6 flex items-center justify-between">
+                            <span>Latest Announcements</span>
+                            <span class="text-xs text-nnm-600 font-semibold bg-nnm-50 px-2.5 py-1 rounded-full">Official Updates</span>
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="p-4 rounded-xl bg-gray-50 border-l-4 border-nnm-600">
+                                <span class="text-xs font-bold text-gray-400">October 26, 2026</span>
+                                <h4 class="font-bold text-nnm-700 text-sm">National Executive Council Approves 2027 Grassroots Mobilization Strategy</h4>
+                                <p class="text-xs text-gray-600 mt-1">All State and LGA chapters are directed to complete ward-level coordination units by next month.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-gray-50 border-l-4 border-gold-500">
+                                <span class="text-xs font-bold text-gray-400">October 20, 2026</span>
+                                <h4 class="font-bold text-nnm-700 text-sm">Digital ID Card Generation System Live for All Verified Members</h4>
+                                <p class="text-xs text-gray-600 mt-1">Members can now log into their member dashboard to download their PVC-ready digital ID cards with QR codes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= 2. ABOUT US TAB ================= -->
+        <div id="tab-about" class="tab-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="bg-nnm-100 text-nnm-700 px-3 py-1 rounded-full text-xs font-bold uppercase">About The Movement</span>
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-nnm-700 mt-3 mb-4">About New Nigeria Movement (NNM)</h1>
+                <p class="text-gray-600 text-lg">A citizen-powered political movement committed to reclaiming Nigeria's destiny through purposeful leadership, active participation, and community-driven development.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+                <div class="bg-white p-8 rounded-2xl shadow-md border border-gray-100">
+                    <h3 class="text-2xl font-bold text-nnm-700 mb-4 flex items-center gap-3">
+                        <i class="fa-solid fa-eye text-gold-500"></i> Our Vision
+                    </h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        To build a prosperous, secure, united, and egalitarian Nigeria where every citizen has equal opportunity to thrive, innovate, and live in dignity, driven by world-class public service and patriotic leadership.
+                    </p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-md border border-gray-100">
+                    <h3 class="text-2xl font-bold text-nnm-700 mb-4 flex items-center gap-3">
+                        <i class="fa-solid fa-bullseye text-nnm-600"></i> Our Mission
+                    </h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        To mobilize, organize, and empower Nigerians across all strata of society to participate actively in democratic governance, install credible leaders, and enforce absolute accountability at all levels of government.
+                    </p>
+                </div>
+            </div>
+
+            <!-- National Leadership Directory Preview -->
+            <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 mb-12">
+                <h3 class="text-2xl font-bold text-nnm-700 mb-6 text-center">National Executive Committee</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="text-center p-4 bg-gray-50 rounded-xl">
+                        <div class="w-24 h-24 bg-nnm-200 rounded-full mx-auto mb-3 flex items-center justify-center text-nnm-700 text-3xl font-black border-2 border-gold-500">
+                            CN
+                        </div>
+                        <h4 class="font-bold text-nnm-700">Comrade Nnamdi Okafor</h4>
+                        <span class="text-xs text-gray-500 block">National Chairman</span>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-xl">
+                        <div class="w-24 h-24 bg-nnm-200 rounded-full mx-auto mb-3 flex items-center justify-center text-nnm-700 text-3xl font-black border-2 border-gold-500">
+                            AH
+                        </div>
+                        <h4 class="font-bold text-nnm-700">Alhaji Aminu Bello</h4>
+                        <span class="text-xs text-gray-500 block">Deputy National Chairman</span>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-xl">
+                        <div class="w-24 h-24 bg-nnm-200 rounded-full mx-auto mb-3 flex items-center justify-center text-nnm-700 text-3xl font-black border-2 border-gold-500">
+                            FA
+                        </div>
+                        <h4 class="font-bold text-nnm-700">Dr. Folashade Adebayo</h4>
+                        <span class="text-xs text-gray-500 block">National Secretary</span>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-xl">
+                        <div class="w-24 h-24 bg-nnm-200 rounded-full mx-auto mb-3 flex items-center justify-center text-nnm-700 text-3xl font-black border-2 border-gold-500">
+                            EO
+                        </div>
+                        <h4 class="font-bold text-nnm-700">Barr. Emeka Ofor</h4>
+                        <span class="text-xs text-gray-500 block">National Legal Adviser</span>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- TAB 2: REGISTER -->
-        <section id="tab-register" class="tab-content hidden animate-fade py-12 px-4 sm:px-6 lg:px-8">
-            <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-                <div class="bg-ndcBlue text-white px-8 py-6">
-                    <div class="flex justify-between items-center mb-2">
-                        <h2 class="text-2xl font-black">Member Registration</h2>
-                        <span id="stepIndicator" class="text-xs bg-ndcGold text-ndcDark font-bold px-3 py-1 rounded-full">Step 1 of 4</span>
+        <!-- ================= 3. ORGANIZATIONAL STRUCTURE TAB ================= -->
+        <div id="tab-structure" class="tab-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="bg-nnm-100 text-nnm-700 px-3 py-1 rounded-full text-xs font-bold uppercase">Hierarchical Network</span>
+                <h1 class="text-3xl font-extrabold text-nnm-700 mt-3 mb-4">Organizational Structure</h1>
+                <p class="text-gray-600">The New Nigeria Movement is built from the grassroots up, operating seamlessly across five distinct administrative tiers.</p>
+            </div>
+
+            <div class="space-y-6 max-w-4xl mx-auto">
+                <div class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-nnm-700 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs font-bold text-nnm-600 uppercase">Tier 1</span>
+                        <h3 class="text-xl font-bold text-nnm-700">National Headquarters</h3>
+                        <p class="text-sm text-gray-600">Overall national strategy, national executive oversight, and general movement policy.</p>
                     </div>
-                    <p class="text-slate-300 text-sm">Complete your official Nigeria Democratic Congress registration.</p>
+                    <span class="bg-nnm-50 text-nnm-700 font-bold px-4 py-2 rounded-xl">Abuja (FCT)</span>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-nnm-600 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs font-bold text-nnm-600 uppercase">Tier 2</span>
+                        <h3 class="text-xl font-bold text-nnm-700">State Chapters (36 States + FCT)</h3>
+                        <p class="text-sm text-gray-600">State-level coordination, gubernatorial campaign committees, and state executive councils.</p>
+                    </div>
+                    <span class="bg-nnm-50 text-nnm-700 font-bold px-4 py-2 rounded-xl">37 Chapters</span>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-gold-500 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs font-bold text-gold-600 uppercase">Tier 3</span>
+                        <h3 class="text-xl font-bold text-nnm-700">Local Government Areas (LGA)</h3>
+                        <p class="text-sm text-gray-600">774 Local Government Area chapters managing municipal mobilizations and local campaigns.</p>
+                    </div>
+                    <span class="bg-yellow-50 text-gold-700 font-bold px-4 py-2 rounded-xl">774 LGAs</span>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-nnm-500 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs font-bold text-green-600 uppercase">Tier 4</span>
+                        <h3 class="text-xl font-bold text-nnm-700">Wards (Electoral Districts)</h3>
+                        <p class="text-sm text-gray-600">Ward executive committees driving direct membership registration and community engagement.</p>
+                    </div>
+                    <span class="bg-green-50 text-green-700 font-bold px-4 py-2 rounded-xl">8,812 Wards</span>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-gray-400 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs font-bold text-gray-500 uppercase">Tier 5</span>
+                        <h3 class="text-xl font-bold text-nnm-700">Polling Units</h3>
+                        <p class="text-sm text-gray-600">The grassroots bedrock where elections are won and community protection is enforced.</p>
+                    </div>
+                    <span class="bg-gray-100 text-gray-700 font-bold px-4 py-2 rounded-xl">176,846 Units</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 4. MEMBERSHIP REGISTRATION TAB ================= -->
+        <div id="tab-register" class="tab-content hidden max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden">
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-nnm-700 to-nnm-600 text-white p-8 text-center">
+                    <span class="bg-gold-500 text-nnm-900 text-xs font-extrabold uppercase px-3 py-1 rounded-full">New Member Onboarding</span>
+                    <h2 class="text-3xl font-black mt-3">Join the Rescue Mission Today</h2>
+                    <p class="text-nnm-100 text-sm mt-2">Fill in your official details to register as a member of the New Nigeria Movement.</p>
                 </div>
 
-                <form id="regForm" onsubmit="handleRegistration(event)" class="p-8 space-y-6">
-                    <!-- Step 1: Personal Info -->
-                    <div class="reg-step space-y-4" data-step="1">
-                        <h3 class="text-lg font-bold text-ndcBlue border-b pb-2 flex items-center gap-2">
-                            <i class="fa-solid fa-user text-ndcRed"></i> 1. Personal Information & NIN
+                <!-- Registration Form -->
+                <form id="membership-form" onsubmit="handleRegistration(event)" class="p-8 space-y-8">
+                    <!-- Section A: Personal Information -->
+                    <div>
+                        <h3 class="text-lg font-bold text-nnm-700 mb-4 pb-2 border-b border-gray-200 flex items-center gap-2">
+                            <i class="fa-solid fa-user-pen text-gold-500"></i> Personal Information
                         </h3>
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1">Passport Photograph *</label>
-                            <input type="file" id="regPhoto" accept="image/*" required class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-ndcBlue hover:file:bg-purple-100 border border-slate-300 rounded-lg p-1.5">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">First Name *</label>
+                                <input type="text" id="reg-firstname" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="e.g. Oluwaseun">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Middle Name</label>
+                                <input type="text" id="reg-middlename" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="Optional">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Surname *</label>
+                                <input type="text" id="reg-surname" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="e.g. Chukwu">
+                            </div>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
                             <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">National ID Number (NIN) *</label>
-                                <input type="text" id="regNin" placeholder="10 or 11-digit NIN" required maxlength="11" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-ndcBlue focus:outline-none">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Date of Birth *</label>
+                                <input type="date" id="reg-dob" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none">
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">Full Name *</label>
-                                <input type="text" id="regName" placeholder="e.g. Adebayo Chukwuma" required class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-ndcBlue focus:outline-none">
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">Email Address *</label>
-                                <input type="email" id="regEmail" placeholder="name@example.com" required class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-ndcBlue focus:outline-none">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Gender *</label>
+                                <select id="reg-gender" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">Phone Number *</label>
-                                <input type="tel" id="regPhone" placeholder="08012345678" required class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-ndcBlue focus:outline-none">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Membership Category *</label>
+                                <select id="reg-category" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none">
+                                    <option value="Ordinary Member">Ordinary Member</option>
+                                    <option value="Youth Member">Youth Member</option>
+                                    <option value="Student Member">Student Member</option>
+                                    <option value="Founding Member">Founding Member</option>
+                                    <option value="Diaspora Member">Diaspora Member</option>
+                                </select>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Step 2: Location & Constituency -->
-                    <div class="reg-step space-y-4 hidden" data-step="2">
-                        <h3 class="text-lg font-bold text-ndcBlue border-b pb-2 flex items-center gap-2">
-                            <i class="fa-solid fa-map-location-dot text-ndcRed"></i> 2. Constituency & Grassroots Hierarchy
+                    <!-- Section B: Contact & Address -->
+                    <div>
+                        <h3 class="text-lg font-bold text-nnm-700 mb-4 pb-2 border-b border-gray-200 flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot text-gold-500"></i> Contact & Geographical Location
                         </h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">State of Origin *</label>
-                                <select id="regState" onchange="populateLGAs()" required class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-ndcBlue focus:outline-none bg-white">
-                                    <option value="">Select State</option>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Phone Number (WhatsApp) *</label>
+                                <input type="tel" id="reg-phone" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="e.g. 08031234567">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Email Address *</label>
+                                <input type="email" id="reg-email" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="comrade@newnigeria.org">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">State of Residence *</label>
+                                <select id="reg-state" onchange="updateLGAs()" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none">
                                     <option value="Lagos">Lagos State</option>
+                                    <option value="Abuja">Federal Capital Territory (FCT)</option>
                                     <option value="Kano">Kano State</option>
                                     <option value="Rivers">Rivers State</option>
-                                    <option value="FCT">FCT Abuja</option>
+                                    <option value="Oyo">Oyo State</option>
                                     <option value="Anambra">Anambra State</option>
+                                    <option value="Kaduna">Kaduna State</option>
+                                    <option value="Enugu">Enugu State</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">Local Government Area (LGA) *</label>
-                                <select id="regLga" required class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-ndcBlue focus:outline-none bg-white">
-                                    <option value="">Select State First</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">Ward *</label>
-                                <input type="text" id="regWard" placeholder="e.g. Ward 4, Ikeja" required class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-ndcBlue focus:outline-none">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Local Government Area (LGA) *</label>
+                                <input type="text" id="reg-lga" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="e.g. Ikeja">
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">Polling Unit *</label>
-                                <input type="text" id="regPollingUnit" placeholder="e.g. PU 012 - Town Hall" required class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-ndcBlue focus:outline-none">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Ward *</label>
+                                <input type="text" id="reg-ward" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="e.g. Ward A / Alausa">
                             </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Residential Address *</label>
+                            <input type="text" id="reg-address" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="Street Address">
                         </div>
                     </div>
 
-                    <!-- Step 3: Declaration & Oath -->
-                    <div class="reg-step space-y-4 hidden" data-step="3">
-                        <h3 class="text-lg font-bold text-ndcBlue border-b pb-2 flex items-center gap-2">
-                            <i class="fa-solid fa-file-contract text-ndcRed"></i> 3. Party Declaration & Pledge
-                        </h3>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-sm text-slate-700 space-y-2 leading-relaxed">
-                            <p class="font-bold text-ndcBlue">I, the undersigned, hereby solemnly pledge:</p>
-                            <ul class="list-disc pl-5 space-y-1">
-                               <li>To abide by the Constitution and Manifesto of the Nigeria Democratic Congress (NDC).</li>
-                               <li>To promote grassroots unity, peace, and democratic governance across Nigeria.</li>
-                               <li>To pay all prescribed party dues and support party mobilization activities diligently.</li>
-                            </ul>
-                        </div>
-                        <div class="flex items-center gap-3 pt-2">
-                            <input type="checkbox" id="regOath" required class="w-5 h-5 text-ndcBlue rounded border-slate-300 focus:ring-ndcBlue">
-                            <label for="regOath" class="text-sm font-medium text-slate-700">I agree and bind myself to the tenets of the Nigeria Democratic Congress.</label>
-                        </div>
+                    <!-- Consent & Submit -->
+                    <div class="bg-nnm-50 p-4 rounded-xl border border-green-100 flex items-start gap-3">
+                        <input type="checkbox" id="reg-consent" required class="mt-1 w-5 h-5 text-nnm-600 rounded border-gray-300 focus:ring-nnm-500">
+                        <label for="reg-consent" class="text-xs text-gray-700 leading-relaxed">
+                            I hereby confirm that the information provided is accurate and voluntarily given in accordance with the Nigeria Data Protection Act (NDPA 2023). I commit to abide by the constitution and ethical codes of the New Nigeria Movement.
+                        </label>
                     </div>
 
-                    <!-- Step 4: Success / Card Preview -->
-                    <div class="reg-step space-y-6 hidden text-center" data-step="4">
-                        <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto shadow-sm">
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                        <h3 class="text-2xl font-black text-ndcBlue">Registration Successful!</h3>
-                        <p class="text-slate-600 text-sm">Your unique Membership ID has been generated and logged into the NDC national database.</p>
-                        
-                        <!-- Generated Card Preview -->
-                        <div id="cardPreviewContainer" class="max-w-sm mx-auto bg-slate-900 text-white rounded-2xl p-6 shadow-2xl border-2 border-ndcGold text-left relative overflow-hidden">
-                            <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl text-ndcGold font-black">NDC</div>
-                            <div class="flex justify-between items-start mb-4 border-b border-slate-800 pb-3">
-                                <div>
-                                    <span class="text-xs font-bold tracking-wider text-ndcGold uppercase">Nigeria Democratic Congress</span>
-                                    <h4 class="text-base font-black text-white">OFFICIAL MEMBER ID</h4>
-                                </div>
-                                <div class="bg-ndcRed text-white text-[10px] font-bold px-2 py-1 rounded">ACTIVE</div>
-                            </div>
-                            <div class="flex gap-4 items-center mb-4">
-                                <img id="previewImg" src="" alt="Passport" class="w-20 h-24 object-cover rounded-lg border-2 border-ndcGold shadow">
-                                <div class="space-y-1 text-xs">
-                                    <p class="text-slate-400">Name:</p>
-                                    <p id="previewName" class="font-bold text-sm text-white truncate"></p>
-                                    <p class="text-slate-400">ID Number:</p>
-                                    <p id="previewIdNo" class="font-mono font-bold text-ndcGold"></p>
-                                    <p class="text-slate-400">NIN:</p>
-                                    <p id="previewNin" class="font-mono text-slate-200"></p>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-2 text-[11px] bg-slate-800/80 p-3 rounded-lg border border-slate-700">
-                                <div><span class="text-slate-400 block">State / LGA:</span> <span id="previewLoc" class="font-semibold text-white"></span></div>
-                                <div><span class="text-slate-400 block">Ward:</span> <span id="previewWard" class="font-semibold text-white"></span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Wizard Buttons -->
-                    <div class="flex justify-between pt-4 border-t border-slate-200">
-                        <button type="button" id="prevBtn" onclick="changeStep(-1)" class="hidden px-6 py-2.5 rounded-lg border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition">Previous</button>
-                        <button type="button" id="nextBtn" onclick="changeStep(1)" class="ml-auto bg-ndcBlue text-white px-8 py-2.5 rounded-lg font-bold hover:bg-ndcBlueLight transition shadow">Next Step</button>
-                        <button type="submit" id="submitBtn" class="hidden ml-auto bg-ndcRed text-white px-8 py-2.5 rounded-lg font-bold hover:bg-red-700 transition shadow">Complete Registration</button>
+                    <div class="text-center">
+                        <button type="submit" class="bg-gold-500 hover:bg-yellow-400 text-nnm-900 font-extrabold px-10 py-4 rounded-xl shadow-lg transition text-lg w-full sm:w-auto">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> Submit Registration & Generate ID
+                        </button>
                     </div>
                 </form>
             </div>
-        </section>
+        </div>
 
-        <!-- TAB 3: VERIFY ID / NIN -->
-        <section id="tab-verify" class="tab-content hidden animate-fade py-12 px-4 sm:px-6 lg:px-8">
-            <div class="max-w-xl mx-auto bg-white rounded-2xl shadow-xl border border-slate-200 p-8">
-                <div class="text-center mb-8">
-                    <div class="w-16 h-16 bg-purple-50 text-ndcBlue rounded-full flex items-center justify-center text-2xl mx-auto mb-3 shadow-sm">
-                        <i class="fa-solid fa-magnifying-glass"></i>
+        <!-- ================= 5. MEMBER DASHBOARD TAB ================= -->
+        <div id="tab-member" class="tab-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <!-- Top Alert Banner -->
+            <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-4">
+                    <div id="member-avatar-initials" class="w-16 h-16 rounded-full bg-nnm-700 text-gold-500 text-2xl font-black flex items-center justify-center shadow-md">
+                        OC
                     </div>
-                    <h2 class="text-2xl font-black text-ndcBlue">Verify Membership & NIN</h2>
-                    <p class="text-slate-600 text-sm">Enter your unique NDC Membership ID or National Identification Number (NIN).</p>
-                </div>
-
-                <div class="flex gap-2 mb-6">
-                    <input type="text" id="verifyInput" placeholder="e.g. NDC-LG-1049 or NIN..." class="flex-grow border border-slate-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-ndcBlue focus:outline-none font-mono">
-                    <button onclick="verifyMember()" class="bg-ndcBlue text-white font-bold px-6 py-3 rounded-lg hover:bg-ndcBlueLight transition shadow flex items-center gap-2">
-                        <i class="fa-solid fa-shield-check"></i> Verify
-                    </button>
-                </div>
-
-                <div id="verifyResult" class="hidden">
-                    <!-- Dynamic verification results will appear here -->
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 4: MEMBER PORTAL -->
-        <section id="tab-member" class="tab-content hidden animate-fade py-12 px-4 sm:px-6 lg:px-8">
-            <div class="max-w-4xl mx-auto space-y-8">
-                <!-- Member Login Box (if not logged in) -->
-                <div id="memberLoginBox" class="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 max-w-md mx-auto">
-                    <h3 class="text-2xl font-black text-ndcBlue mb-2">Member Portal Access</h3>
-                    <p class="text-slate-600 text-sm mb-6">Log in using your Membership ID or registered NIN.</p>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1">Membership ID or NIN</label>
-                            <input type="text" id="memberLoginId" placeholder="e.g. NDC-LG-1049" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-ndcBlue focus:outline-none font-mono">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 id="member-display-name" class="text-2xl font-black text-nnm-700">Comrade Oluwaseun Chukwu</h2>
+                            <span class="bg-green-100 text-green-800 text-xs font-bold px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-circle-check text-green-600 mr-1"></i> Verified Member</span>
                         </div>
-                        <button onclick="memberLogin()" class="w-full bg-ndcBlue text-white font-bold py-3 rounded-lg hover:bg-ndcBlueLight transition shadow">
-                            Access Portal
-                        </button>
+                        <p id="member-display-id" class="text-sm font-mono text-gray-500 mt-0.5">Membership Number: <span class="font-bold text-nnm-600">PM/NIG/LA/001245</span></p>
                     </div>
                 </div>
-
-                <!-- Member Dashboard (when logged in) -->
-                <div id="memberDashboard" class="hidden space-y-8">
-                    <!-- Welcome Header -->
-                    <div class="bg-ndcBlue text-white p-8 rounded-2xl shadow-xl flex flex-col md:flex-row justify-between items-center gap-6">
-                        <div>
-                            <span class="bg-ndcGold text-ndcDark text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Verified Member</span>
-                            <h2 id="dashMemberName" class="text-3xl font-black mt-2"></h2>
-                            <p id="dashMemberDetails" class="text-slate-300 text-sm mt-1"></p>
-                        </div>
-                        <button onclick="memberLogout()" class="bg-white/10 hover:bg-white/20 text-white border border-white/30 px-4 py-2 rounded-lg text-sm font-semibold transition">
-                            <i class="fa-solid fa-right-from-bracket mr-1"></i> Log Out
-                        </button>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <!-- Digital ID Card Column -->
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                            <h3 class="font-bold text-ndcBlue text-lg flex items-center gap-2">
-                                <i class="fa-solid fa-id-card text-ndcRed"></i> Digital ID Card
-                            </h3>
-                            <div id="dashCardContainer" class="bg-slate-900 text-white rounded-2xl p-5 shadow-xl border-2 border-ndcGold relative overflow-hidden text-left">
-                                <!-- Card content injected dynamically -->
-                            </div>
-                            <button onclick="alert('Digital ID Card downloaded successfully as Secure PDF.')" class="w-full bg-ndcBlue text-white font-bold py-2.5 rounded-lg hover:bg-ndcBlueLight transition text-sm flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-download"></i> Download ID Card
-                            </button>
-                        </div>
-
-                        <!-- Paystack Dues & Financials -->
-                        <div class="md:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
-                            <h3 class="font-bold text-ndcBlue text-lg flex items-center gap-2">
-                                <i class="fa-solid fa-wallet text-ndcGold"></i> Secretariat Dues & Contributions (Paystack)
-                            </h3>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                                    <span class="text-xs text-slate-500 font-semibold">Annual Party Dues</span>
-                                    <div class="text-2xl font-black text-ndcBlue mt-1">₦5,000</div>
-                                    <span id="duesStatusBadge" class="inline-block mt-2 text-xs bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded">Pending Payment</span>
-                                </div>
-                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-between">
-                                    <div>
-                                        <span class="text-xs text-slate-500 font-semibold">Mobilization Levy</span>
-                                        <div class="text-2xl font-black text-ndcBlue mt-1">₦2,000</div>
-                                    </div>
-                                    <button onclick="simulatePaystackPayment()" class="mt-3 w-full bg-ndcRed text-white font-bold py-2 rounded-lg hover:bg-red-700 transition text-sm shadow">
-                                        Pay via Paystack
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Secretariat Broadcasts in Member Portal -->
-                            <div class="border-t pt-4">
-                                <h4 class="font-bold text-ndcBlue mb-3 text-sm flex items-center gap-2">
-                                    <i class="fa-solid fa-bullhorn text-ndcRed"></i> Secretariat Broadcasts
-                                </h4>
-                                <div id="memberBroadcasts" class="space-y-3">
-                                    <div class="bg-purple-50 border-l-4 border-ndcBlue p-3 rounded-r-lg text-xs text-slate-700">
-                                        <span class="font-bold text-ndcBlue block mb-0.5">National Executive Committee Emergency Briefing</span>
-                                        All Ward Coordinators and registered members are invited to the virtual town hall meeting this Saturday at 4 PM WAT.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="flex gap-3">
+                    <button onclick="switchTab('register')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-4 py-2.5 rounded-xl text-sm transition">Edit Profile</button>
+                    <button onclick="alertBox('Logged out of Member Portal.')" class="bg-red-50 hover:bg-red-100 text-red-600 font-bold px-4 py-2.5 rounded-xl text-sm transition">Logout</button>
                 </div>
             </div>
-        </section>
 
-        <!-- TAB 5: ADMIN / SECRETARIAT DASHBOARD -->
-        <section id="tab-admin" class="tab-content hidden animate-fade py-12 px-4 sm:px-6 lg:px-8">
-            <div class="max-w-6xl mx-auto space-y-8">
-                <!-- Admin Login Modal Overlay / Box -->
-                <div id="adminLoginBox" class="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 max-w-md mx-auto">
-                    <div class="text-center mb-6">
-                        <div class="w-14 h-14 bg-red-50 text-ndcRed rounded-full flex items-center justify-center text-2xl mx-auto mb-3">
-                            <i class="fa-solid fa-lock"></i>
-                        </div>
-                        <h3 class="text-2xl font-black text-ndcBlue">Secretariat Command</h3>
-                        <p class="text-slate-600 text-sm">Restricted access for National & State Executives.</p>
-                    </div>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1">Secretariat Passcode</label>
-                            <input type="password" id="adminPass" placeholder="Enter passcode (default: ndc2026)" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-ndcBlue focus:outline-none">
-                        </div>
-                        <button onclick="adminLogin()" class="w-full bg-ndcRed text-white font-bold py-3 rounded-lg hover:bg-red-700 transition shadow">
-                            Authenticate Command
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Admin Dashboard Content -->
-                <div id="adminDashboard" class="hidden space-y-8">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-ndcBlue text-white p-6 rounded-2xl shadow-xl">
-                        <div>
-                            <span class="bg-ndcRed text-white text-xs font-bold px-3 py-1 rounded-full">National Secretariat</span>
-                            <h2 class="text-2xl font-black mt-2">Executive Command Dashboard</h2>
-                            <p class="text-slate-300 text-sm">Manage grassroots mobilization, financial ledgers, and broadcasts.</p>
-                        </div>
-                        <button onclick="adminLogout()" class="bg-white/10 hover:bg-white/20 text-white border border-white/30 px-4 py-2 rounded-lg text-sm font-semibold transition">
-                            <i class="fa-solid fa-right-from-bracket mr-1"></i> Lock Dashboard
-                        </button>
-                    </div>
-
-                    <!-- Stats Row -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                            <span class="text-xs text-slate-500 font-semibold block uppercase">Total Registered Members</span>
-                            <div id="statTotalMembers" class="text-3xl font-black text-ndcBlue mt-1">0</div>
-                            <span class="text-xs text-emerald-600 font-bold mt-2 inline-block"><i class="fa-solid fa-arrow-trend-up"></i> Live Database</span>
-                        </div>
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                            <span class="text-xs text-slate-500 font-semibold block uppercase">Total Dues Collected</span>
-                            <div id="statTotalDues" class="text-3xl font-black text-ndcBlue mt-1">₦0</div>
-                            <span class="text-xs text-ndcGold font-bold mt-2 inline-block"><i class="fa-solid fa-wallet"></i> Paystack Verified</span>
-                        </div>
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                            <span class="text-xs text-slate-500 font-semibold block uppercase">Active Wards Mobilized</span>
-                            <div class="text-3xl font-black text-ndcBlue mt-1">3,420</div>
-                            <span class="text-xs text-purple-600 font-bold mt-2 inline-block"><i class="fa-solid fa-check-circle"> All 36 States</i></span>
-                        </div>
-                    </div>
-
-                    <!-- Secretariat Broadcast Manager (Exact Styled Card) -->
-                    <div class="bg-gradient-to-br from-[#073814] to-[#04240C] text-white p-8 rounded-2xl shadow-xl border border-emerald-800">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-ndcGold text-ndcDark rounded-xl flex items-center justify-center text-xl font-black shadow">
-                                    <i class="fa-solid fa-bullhorn"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-black tracking-wide text-white">Secretariat Broadcast Manager</h3>
-                                    <p class="text-xs text-emerald-200">Send instant announcements to members via portal banner, email and SMS.</p>
-                                </div>
-                            </div>
+            <!-- Dashboard Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left: Digital ID Card Preview & Download -->
+                <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200">
+                    <h3 class="text-lg font-bold text-nnm-700 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-id-card text-gold-500"></i> Digital Membership Card
+                    </h3>
+                    
+                    <!-- ID Card Visual -->
+                    <div id="digital-id-card" class="bg-gradient-to-br from-nnm-700 via-nnm-800 to-nnm-900 text-white p-6 rounded-2xl shadow-2xl relative overflow-hidden border-2 border-gold-500">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 text-6xl font-black">NNM</div>
+                        <div class="flex items-center justify-between mb-4 border-b border-green-600 pb-3">
                             <div class="flex items-center gap-2">
-                                <span class="bg-emerald-800/80 border border-emerald-600 text-emerald-200 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5"><i class="fa-solid fa-check text-ndcGold"></i> Portal</span>
-                                <span class="bg-emerald-800/80 border border-emerald-600 text-emerald-200 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5"><i class="fa-solid fa-check text-ndcGold"></i> Email</span>
-                                <span class="bg-emerald-800/80 border border-emerald-600 text-emerald-200 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5"><i class="fa-solid fa-check text-ndcGold"></i> SMS</span>
+                                <div class="w-8 h-8 rounded-full bg-gold-500 text-nnm-900 font-black flex items-center justify-center text-xs">NNM</div>
+                                <span class="text-xs font-black tracking-wider uppercase">NEW NIGERIA MOVEMENT</span>
                             </div>
+                            <span class="text-[10px] bg-gold-500 text-nnm-900 font-bold px-2 py-0.5 rounded">OFFICIAL ID</span>
                         </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-ndcGold mb-2 flex items-center gap-1">
-                                    <i class="fa-solid fa-heading"></i> Broadcast Title *
-                                </label>
-                                <input type="text" id="broadcastTitleInput" placeholder="e.g. National Executive Committee Emerger" class="w-full bg-white text-slate-800 border border-emerald-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-ndcGold focus:outline-none placeholder-slate-400 font-medium">
+                        <div class="flex gap-4 items-center mb-4">
+                            <div class="w-20 h-24 bg-white/10 rounded-xl border border-gold-500 flex items-center justify-center text-2xl font-bold text-gold-400">
+                                <i class="fa-solid fa-user"></i>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-ndcGold mb-2 flex items-center gap-1">
-                                    <i class="fa-solid fa-users"></i> Target Audience
-                                </label>
-                                <select id="broadcastAudienceInput" class="w-full bg-white text-slate-800 border border-emerald-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-ndcGold focus:outline-none font-medium">
-                                    <option>All Registered Members (Active)</option>
-                                    <option>Ward Coordinators Only</option>
-                                    <option>LGA Executives</option>
-                                    <option>Unpaid Dues Members</option>
-                                </select>
+                                <h4 id="card-name" class="font-bold text-lg leading-tight">Oluwaseun Chukwu</h4>
+                                <span id="card-category" class="text-xs text-gold-400 font-semibold block mb-1">Ordinary Member</span>
+                                <span id="card-id-num" class="text-xs font-mono bg-white/10 px-2 py-0.5 rounded text-white">PM/NIG/LA/001245</span>
                             </div>
                         </div>
-
-                        <div class="mb-6">
-                            <div class="flex justify-between items-center mb-2">
-                                <label class="text-xs font-bold uppercase tracking-wider text-ndcGold flex items-center gap-1">
-                                    <i class="fa-solid fa-message"></i> Broadcast Message Body *
-                                </label>
-                                <span id="charCount" class="text-xs text-emerald-300">0 characters</span>
-                            </div>
-                            <textarea id="broadcastBodyInput" rows="4" oninput="updateCharCount()" placeholder="Type your official announcement here..." class="w-full bg-white text-slate-800 border border-emerald-700 rounded-lg p-4 focus:ring-2 focus:ring-ndcGold focus:outline-none placeholder-slate-400 font-medium"></textarea>
+                        <div class="grid grid-cols-2 gap-2 text-[11px] text-green-100 bg-black/20 p-3 rounded-xl mb-4">
+                            <div><span class="opacity-75 block">State / LGA:</span> <span id="card-location" class="font-bold text-white">Lagos / Ikeja</span></div>
+                            <div><span class="opacity-75 block">Issued Date:</span> <span class="font-bold text-white">Oct 2026</span></div>
                         </div>
-
-                        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-                            <span class="text-xs text-emerald-200 flex items-center gap-1.5">
-                                <i class="fa-solid fa-shield-halved text-ndcGold"></i> Official messages are logged under National Secretariat authority.
-                            </span>
-                            <button onclick="dispatchBroadcast()" class="w-full sm:w-auto bg-ndcGold text-ndcDark font-black px-8 py-3.5 rounded-lg hover:bg-amber-400 transition shadow-lg flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-paper-plane"></i> Dispatch Broadcast (Portal + Email + SMS)
-                            </button>
+                        <div class="flex justify-between items-center pt-2 border-t border-green-700/50">
+                            <span class="text-[9px] text-green-300 italic">Scan QR to verify membership status</span>
+                            <div class="w-10 h-10 bg-white p-1 rounded">
+                                <svg viewBox="0 0 24 24" class="w-full h-full fill-nnm-900"><path d="M2 2h8v8H2V2zm2 2v4h4V4H4zm10-2h8v8h-8V2zm2 2v4h4V4h-4zM2 14h8v8H2v-8zm2 2v4h4v-4H4zm12-2h2v2h-2v-2zm4 0h2v2h-2v-2zm-4 4h2v2h-2v-2zm4 0h2v2h-2v-2zm-2 2h2v2h-2v-2z"/></svg>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Secretariat Financial & Dues Tracking Ledger -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-6">
-                        <div class="flex justify-between items-center border-b pb-4">
-                            <div>
-                                <h3 class="font-bold text-ndcBlue text-lg">Secretariat Financial & Dues Tracking Ledger</h3>
-                                <p class="text-xs text-slate-500">Trace all incoming party dues and financial contributions by reference, ward, LGA, and state.</p>
-                            </div>
-                            <button onclick="exportLedgerCSV()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
-                                <i class="fa-solid fa-file-excel text-emerald-600"></i> Export Ledger
-                            </button>
-                        </div>
+                    <div class="mt-6 flex gap-3">
+                        <button onclick="alertBox('Digital Membership Card downloaded successfully as Secure PDF.')" class="flex-1 bg-nnm-700 hover:bg-nnm-800 text-white font-bold py-3 px-4 rounded-xl text-sm transition shadow flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-download"></i> Download PDF
+                        </button>
+                        <button onclick="alertBox('Verification QR code copied to clipboard.')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-4 rounded-xl text-sm transition">
+                            <i class="fa-solid fa-qrcode"></i>
+                        </button>
+                    </div>
+                </div>
 
+                <!-- Right: Financials, Dues & Support -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Dues & Billing Card -->
+                    <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200">
+                        <h3 class="text-lg font-bold text-nnm-700 mb-4 flex items-center justify-between">
+                            <span><i class="fa-solid fa-wallet text-gold-500 mr-2"></i> Membership Dues & Billing</span>
+                            <span class="text-xs bg-yellow-100 text-gold-800 px-2.5 py-1 rounded-full font-bold">1 Pending Invoice</span>
+                        </h3>
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse text-sm">
+                            <table class="w-full text-left border-collapse">
                                 <thead>
-                                    <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 text-xs uppercase font-bold tracking-wider">
-                                        <th class="p-3">Ref Code</th>
-                                        <th class="p-3">Member Name</th>
-                                        <th class="p-3">ID / NIN</th>
-                                        <th class="p-3">Ward / LGA / State</th>
-                                        <th class="p-3">Amount</th>
-                                        <th class="p-3">Date</th>
-                                        <th class="p-3">Status</th>
+                                    <tr class="border-b text-xs text-gray-500 uppercase">
+                                        <th class="py-3 px-4">Description</th>
+                                        <th class="py-3 px-4">Amount</th>
+                                        <th class="py-3 px-4">Status</th>
+                                        <th class="py-3 px-4 text-right">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="ledgerTableBody" class="divide-y divide-slate-100">
-                                    <!-- Injected dynamically -->
+                                <tbody class="text-sm">
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="py-3 px-4 font-semibold text-gray-700">2026 Annual Membership Dues</td>
+                                        <td class="py-3 px-4 font-bold text-nnm-700">₦5,000</td>
+                                        <td class="py-3 px-4"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full font-bold">Unpaid</span></td>
+                                        <td class="py-3 px-4 text-right">
+                                            <button onclick="payDues('₦5,000 Annual Dues')" class="bg-gold-500 hover:bg-yellow-400 text-nnm-900 font-bold px-4 py-1.5 rounded-lg text-xs shadow transition">Pay Now</button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="py-3 px-4 font-semibold text-gray-700">Movement Foundation Registration</td>
+                                        <td class="py-3 px-4 font-bold text-nnm-700">₦1,000</td>
+                                        <td class="py-3 px-4"><span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full font-bold">Paid</span></td>
+                                        <td class="py-3 px-4 text-right">
+                                            <button onclick="alertBox('Receipt downloaded: NNM-REC-99824')" class="text-nnm-600 hover:underline font-bold text-xs">Receipt</button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
-                    <!-- Member Database Management -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-6">
-                        <div class="flex justify-between items-center border-b pb-4">
-                            <h3 class="font-bold text-ndcBlue text-lg">Registered Members Directory</h3>
-                            <input type="text" id="adminSearch" onkeyup="filterAdminTable()" placeholder="Search by name, ID, or NIN..." class="border border-slate-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-ndcBlue focus:outline-none w-64">
+                    <!-- Announcements & Support Tickets -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200">
+                            <h3 class="text-md font-bold text-nnm-700 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-bell text-gold-500"></i> Member Inbox
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="p-3 bg-gray-50 rounded-xl border">
+                                    <span class="text-[10px] text-gray-400 block">Today, 10:30 AM</span>
+                                    <h4 class="text-xs font-bold text-nnm-700">Lagos State Chapter Meeting</h4>
+                                    <p class="text-xs text-gray-600 mt-0.5">All registered comrades in Ikeja LGA are invited to the emergency mobilization briefing this Saturday.</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse text-sm">
-                                <thead>
-                                    <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 text-xs uppercase font-bold tracking-wider">
-                                        <th class="p-3">Photo</th>
-                                        <th class="p-3">Member Details</th>
-                                        <th class="p-3">NIN</th>
-                                        <th class="p-3">Constituency (State/LGA/Ward)</th>
-                                        <th class="p-3">Dues</th>
-                                        <th class="p-3">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="adminTableBody" class="divide-y divide-slate-100">
-                                    <!-- Injected dynamically -->
-                                </tbody>
-                            </table>
+
+                        <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200">
+                            <h3 class="text-md font-bold text-nnm-700 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-headset text-gold-500"></i> Support & Helpdesk
+                            </h3>
+                            <form onsubmit="handleSupportTicket(event)" class="space-y-3">
+                                <input type="text" id="ticket-subject" required placeholder="Subject / Complaint" class="w-full px-3 py-2 text-xs rounded-xl border border-gray-300 focus:outline-none focus:ring-1 focus:ring-nnm-600">
+                                <textarea id="ticket-message" required placeholder="Describe your inquiry..." class="w-full px-3 py-2 text-xs rounded-xl border border-gray-300 focus:outline-none focus:ring-1 focus:ring-nnm-600 h-20"></textarea>
+                                <button type="submit" class="w-full bg-nnm-700 hover:bg-nnm-800 text-white font-bold py-2 rounded-xl text-xs transition shadow">Submit Support Ticket</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <!-- ================= 6. ADMINISTRATIVE DASHBOARD TAB ================= -->
+        <div id="tab-admin" class="tab-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                <div>
+                    <span class="bg-nnm-700 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">Restricted Admin HQ</span>
+                    <h1 class="text-3xl font-black text-nnm-700 mt-2">National Administrative Dashboard</h1>
+                    <p class="text-gray-600 text-sm">Central oversight of membership approvals, financials, and chapter activities.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="alertBox('Exporting comprehensive audit report as Excel...')" class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-bold px-4 py-2.5 rounded-xl text-sm transition shadow-sm"><i class="fa-solid fa-file-excel mr-1 text-green-600"></i> Export Reports</button>
+                    <button onclick="alertBox('Security system check passed. All nodes secure.')" class="bg-nnm-700 hover:bg-nnm-800 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition shadow"><i class="fa-solid fa-shield-halved mr-1"></i> Security Audit</button>
+                </div>
+            </div>
+
+            <!-- Stats Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200">
+                    <span class="text-xs text-gray-500 font-bold uppercase tracking-wider block">Total Members</span>
+                    <div class="flex items-baseline justify-between mt-2">
+                        <span id="admin-total-members" class="text-3xl font-black text-nnm-700">1,245,891</span>
+                        <span class="text-xs text-green-600 font-bold bg-green-50 px-2 py-0.5 rounded-full"><i class="fa-solid fa-arrow-up"></i> +12% this week</span>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200">
+                    <span class="text-xs text-gray-500 font-bold uppercase tracking-wider block">Pending Applications</span>
+                    <div class="flex items-baseline justify-between mt-2">
+                        <span id="admin-pending-count" class="text-3xl font-black text-gold-600">3</span>
+                        <span class="text-xs text-gold-600 font-bold bg-yellow-50 px-2 py-0.5 rounded-full">Requires Review</span>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200">
+                    <span class="text-xs text-gray-500 font-bold uppercase tracking-wider block">Total Dues Collected</span>
+                    <div class="flex items-baseline justify-between mt-2">
+                        <span class="text-3xl font-black text-nnm-700">₦48.25M</span>
+                        <span class="text-xs text-green-600 font-bold bg-green-50 px-2 py-0.5 rounded-full">Audited</span>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200">
+                    <span class="text-xs text-gray-500 font-bold uppercase tracking-wider block">Active Chapters</span>
+                    <div class="flex items-baseline justify-between mt-2">
+                        <span class="text-3xl font-black text-nnm-700">8,849</span>
+                        <span class="text-xs text-blue-600 font-bold bg-blue-50 px-2 py-0.5 rounded-full">States + LGAs</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Membership Approval Management Table -->
+            <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200 mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg font-bold text-nnm-700 flex items-center gap-2">
+                        <i class="fa-solid fa-users-gear text-gold-500"></i> Pending Membership Approvals
+                    </h3>
+                    <span class="text-xs text-gray-500">Review applicant information against movement bylaws</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b text-xs text-gray-500 uppercase bg-gray-50">
+                                <th class="py-3 px-4">Applicant Name</th>
+                                <th class="py-3 px-4">Category</th>
+                                <th class="py-3 px-4">State / LGA</th>
+                                <th class="py-3 px-4">Phone</th>
+                                <th class="py-3 px-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-pending-table" class="text-sm">
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="py-3 px-4 font-bold text-gray-800">Ibrahim Danladi</td>
+                                <td class="py-3 px-4">Youth Member</td>
+                                <td class="py-3 px-4">Kano / Municipal</td>
+                                <td class="py-3 px-4">08065544332</td>
+                                <td class="py-3 px-4 text-right space-x-2">
+                                    <button onclick="approveMember(this)" class="bg-green-600 hover:bg-green-700 text-white font-bold px-3 py-1 rounded-lg text-xs shadow">Approve</button>
+                                    <button onclick="rejectMember(this)" class="bg-red-100 hover:bg-red-200 text-red-700 font-bold px-3 py-1 rounded-lg text-xs">Reject</button>
+                                </td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="py-3 px-4 font-bold text-gray-800">Grace Okon</td>
+                                <td class="py-3 px-4">Ordinary Member</td>
+                                <td class="py-3 px-4">Rivers / Port Harcourt</td>
+                                <td class="py-3 px-4">08021122334</td>
+                                <td class="py-3 px-4 text-right space-x-2">
+                                    <button onclick="approveMember(this)" class="bg-green-600 hover:bg-green-700 text-white font-bold px-3 py-1 rounded-lg text-xs shadow">Approve</button>
+                                    <button onclick="rejectMember(this)" class="bg-red-100 hover:bg-red-200 text-red-700 font-bold px-3 py-1 rounded-lg text-xs">Reject</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
     </main>
 
-    <!-- Professional Footer -->
-    <footer class="bg-ndcDark text-slate-300 text-xs border-t border-purple-900 mt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+    <!-- Custom Modal for Notifications / Alerts -->
+    <div id="custom-modal" class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl text-center border-t-4 border-gold-500">
+            <div class="w-16 h-16 bg-nnm-50 text-nnm-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3 class="text-xl font-bold text-nnm-700 mb-2">New Nigeria Movement</h3>
+            <p id="modal-message" class="text-gray-600 text-sm mb-6">Action completed successfully.</p>
+            <button onclick="closeModal()" class="w-full bg-nnm-700 hover:bg-nnm-800 text-white font-bold py-3 rounded-xl transition shadow">Continue</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-nnm-900 text-white py-12 px-4 sm:px-6 lg:px-8 border-t border-green-800">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
-                <p class="font-bold text-white text-sm">Nigeria Democratic Congress (NDC) National Secretariat</p>
-                <p class="mt-1">&copy; 2026 All Rights Reserved. Grassroots Mobilization & Digital Infrastructure.</p>
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-gold-500 flex items-center justify-center text-nnm-900 font-black text-lg">
+                        NNM
+                    </div>
+                    <span class="text-lg font-black tracking-tight">NEW NIGERIA</span>
+                </div>
+                <p class="text-xs text-green-200 leading-relaxed">
+                    A rescue mission dedicated to rescuing, rebuilding, and restoring our great nation Nigeria through grassroots citizen action.
+                </p>
             </div>
             <div>
-                <p class="text-slate-300">Portal Designed & Maintained by <a href="https://wa.me/2347011641076" target="_blank" class="text-ndcGold font-bold hover:underline">Bamzysoft Consult <i class="fa-brands fa-whatsapp text-emerald-400 ml-0.5"></i></a></p>
+                <h4 class="font-bold text-gold-500 text-sm uppercase tracking-wider mb-4">Quick Links</h4>
+                <ul class="space-y-2 text-xs text-green-200">
+                    <li><a href="#" onclick="switchTab('home')" class="hover:underline">Home Portal</a></li>
+                    <li><a href="#" onclick="switchTab('about')" class="hover:underline">About Our Mission</a></li>
+                    <li><a href="#" onclick="switchTab('structure')" class="hover:underline">Organizational Structure</a></li>
+                    <li><a href="#" onclick="switchTab('register')" class="hover:underline">Membership Registration</a></li>
+                </ul>
             </div>
+            <div>
+                <h4 class="font-bold text-gold-500 text-sm uppercase tracking-wider mb-4">Legal & Compliance</h4>
+                <ul class="space-y-2 text-xs text-green-200">
+                    <li><a href="#" onclick="alertBox('NDPA 2023 Compliance: Sensitive data is encrypted and securely processed.')" class="hover:underline">Data Protection (NDPA)</a></li>
+                    <li><a href="#" onclick="alertBox('Movement Constitution: Available in Member Portal repository.')" class="hover:underline">Movement Constitution</a></li>
+                    <li><a href="#" onclick="alertBox('All financial contributions adhere to standard regulatory transparency rules.')" class="hover:underline">Financial Transparency</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-gold-500 text-sm uppercase tracking-wider mb-4">National Secretariat</h4>
+                <p class="text-xs text-green-200 leading-relaxed mb-2">
+                    Plot 124, Independence Avenue, Central Business District, Abuja, FCT, Nigeria.
+                </p>
+                <p class="text-xs text-gold-400 font-semibold"><i class="fa-solid fa-envelope mr-1"></i> contact@newnigeriamovement.org</p>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto pt-8 border-t border-green-900 text-center text-xs text-green-400">
+            &copy; 2026 New Nigeria Movement (NNM). All rights reserved. New Nigeria Is Possible!
         </div>
     </footer>
 
     <!-- JavaScript Application Logic -->
     <script>
-        // State & Local Government Database
-        const lgaData = {
-            "Lagos": ["Ikeja", "Alimosho", "Surulere", "Eti-Osa", "Ikorodu", "Lagos Island", "Kosofe"],
-            "Kano": ["Kano Municipal", "Fagge", "Dala", "Nassarawa", "Gwale", "Tarauni"],
-            "Rivers": ["Port Harcourt", "Obio-Akpor", "Ikwerre", "Eleme", "Okrika"],
-            "FCT": ["Abuja Municipal (AMAC)", "Bwari", "Gwagwalada", "Kuje", "Kwali", "Abaji"],
-            "Anambra": ["Awka South", "Onitsha North", "Nnewi North", "Idemili North", "Aguata"]
-        };
-
-        // In-Memory Database (with sample demo data)
-        let members = [
-            {
-                id: "NDC-LG-1042",
-                nin: "12345678901",
-                name: "Chinedu Emmanuel",
-                email: "chinedu@example.com",
-                phone: "08031112233",
-                state: "Lagos",
-                lga: "Ikeja",
-                ward: "Ward 4",
-                pollingUnit: "PU 012",
-                photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
-                duesPaid: true,
-                duesAmount: 5000,
-                duesDate: "2026-03-01",
-                refCode: "PAY-983102"
-            },
-            {
-                id: "NDC-LG-1043",
-                nin: "98765432109",
-                name: "Aisha Mohammed",
-                email: "aisha@example.com",
-                phone: "08098887766",
-                state: "Kano",
-                lga: "Kano Municipal",
-                ward: "Ward 1",
-                pollingUnit: "PU 004",
-                photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
-                duesPaid: false,
-                duesAmount: 0,
-                duesDate: "",
-                refCode: ""
-            }
-        ];
-
-        let currentStep = 1;
-        let loggedInMember = null;
-        let adminAuthenticated = false;
-
-        // Hero Slideshow Images
-        const heroImages = [
-            "https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=1600&q=80",
-            "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1600&q=80",
-            "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1600&q=80"
-        ];
-        let currentHeroIndex = 0;
-        setInterval(() => {
-            currentHeroIndex = (currentHeroIndex + 1) % heroImages.length;
-            const imgEl = document.getElementById('heroImage');
-            if(imgEl) imgEl.src = heroImages[currentHeroIndex];
-        }, 5000);
-
-        // Tab Switching
+        // Tab switching logic
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-
-            // Update Header Nav highlights
-            ['home', 'register', 'verify', 'member', 'admin'].forEach(t => {
-                const btn = document.getElementById(`nav-${t}`);
-                if(btn) {
-                    if(t === tabId) {
-                        btn.className = "text-ndcGold font-bold pb-1 border-b-2 border-ndcGold transition";
-                    } else {
-                        btn.className = "text-slate-200 transition hover:text-ndcGold";
-                    }
-                }
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const target = document.getElementById('tab-' + tabId);
+            if (target) {
+                target.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
 
         function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
+            const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
         }
 
-        // Populate LGAs based on State
-        function populateLGAs() {
-            const state = document.getElementById('regState').value;
-            const lgaSelect = document.getElementById('regLga');
-            lgaSelect.innerHTML = '<option value="">Select LGA</option>';
-            if(lgaData[state]) {
-                lgaData[state].forEach(lga => {
-                    const opt = document.createElement('option');
-                    opt.value = lga;
-                    opt.textContent = lga;
-                    lgaSelect.appendChild(opt);
-                });
-            }
+        function alertBox(msg) {
+            document.getElementById('modal-message').innerText = msg;
+            document.getElementById('custom-modal').classList.remove('hidden');
         }
 
-        // Registration Wizard Steps
-        function changeStep(dir) {
-            if(dir === 1) {
-                // Validate current step
-                if(currentStep === 1) {
-                    const nin = document.getElementById('regNin').value;
-                    const name = document.getElementById('regName').value;
-                    const email = document.getElementById('regEmail').value;
-                    const phone = document.getElementById('regPhone').value;
-                    const photo = document.getElementById('regPhoto').files[0];
-                    if(!nin || !name || !email || !phone || !photo) {
-                        alert('Please complete all required fields and upload a passport photograph.');
-                        return;
-                    }
-                    if(nin.length < 10) {
-                        alert('Please enter a valid 10 or 11-digit NIN.');
-                        return;
-                    }
-                }
-                if(currentStep === 2) {
-                    const state = document.getElementById('regState').value;
-                    const lga = document.getElementById('regLga').value;
-                    const ward = document.getElementById('regWard').value;
-                    if(!state || !lga || !ward) {
-                        alert('Please select your State, LGA, and Ward.');
-                        return;
-                    }
-                }
-                if(currentStep === 3) {
-                    const oath = document.getElementById('regOath').checked;
-                    if(!oath) {
-                        alert('You must agree to the party declaration to complete registration.');
-                        return;
-                    }
-                    // Generate new member object
-                    generateNewMemberCard();
-                }
-            }
-
-            currentStep += dir;
-            if(currentStep < 1) currentStep = 1;
-            if(currentStep > 4) currentStep = 4;
-
-            updateWizardUI();
+        function closeModal() {
+            document.getElementById('custom-modal').classList.add('hidden');
         }
 
-        function updateWizardUI() {
-            document.querySelectorAll('.reg-step').forEach(el => {
-                if(parseInt(el.getAttribute('data-step')) === currentStep) {
-                    el.classList.remove('hidden');
-                } else {
-                    el.classList.add('hidden');
-                }
-            });
-
-            document.getElementById('stepIndicator').textContent = `Step ${currentStep} of 4`;
-            
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            const submitBtn = document.getElementById('submitBtn');
-
-            if(currentStep === 1) {
-                prevBtn.classList.add('hidden');
-            } else {
-                prevBtn.classList.remove('hidden');
-            }
-
-            if(currentStep === 3) {
-                nextBtn.classList.add('hidden');
-                submitBtn.classList.remove('hidden');
-            } else if(currentStep === 4) {
-                prevBtn.classList.add('hidden');
-                nextBtn.classList.add('hidden');
-                submitBtn.classList.add('hidden');
-            } else {
-                nextBtn.classList.remove('hidden');
-                submitBtn.classList.add('hidden');
-            }
-        }
-
-        let newlyRegisteredMember = null;
-
-        function generateNewMemberCard() {
-            const fileInput = document.getElementById('regPhoto');
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const photoUrl = e.target.result;
-                const newId = `NDC-LG-${Math.floor(1000 + Math.random() * 9000)}`;
-                
-                newlyRegisteredMember = {
-                    id: newId,
-                    nin: document.getElementById('regNin').value,
-                    name: document.getElementById('regName').value,
-                    email: document.getElementById('regEmail').value,
-                    phone: document.getElementById('regPhone').value,
-                    state: document.getElementById('regState').value,
-                    lga: document.getElementById('regLga').value,
-                    ward: document.getElementById('regWard').value,
-                    pollingUnit: document.getElementById('regPollingUnit').value,
-                    photo: photoUrl,
-                    duesPaid: false,
-                    duesAmount: 0,
-                    duesDate: "",
-                    refCode: ""
-                };
-
-                members.unshift(newlyRegisteredMember);
-
-                // Populate preview card
-                document.getElementById('previewImg').src = photoUrl;
-                document.getElementById('previewName').textContent = newlyRegisteredMember.name;
-                document.getElementById('previewIdNo').textContent = newlyRegisteredMember.id;
-                document.getElementById('previewNin').textContent = `NIN: ${newlyRegisteredMember.nin}`;
-                document.getElementById('previewLoc').textContent = `${newlyRegisteredMember.state}, ${newlyRegisteredMember.lga}`;
-                document.getElementById('previewWard').textContent = newlyRegisteredMember.ward;
-
-                refreshAdminTables();
-            };
-            if(fileInput.files[0]) {
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                // Fallback placeholder
-                reader.onload({ target: { result: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80' } });
-            }
-        }
-
+        // Handle Registration Form submission with simulated unique ID generation
         function handleRegistration(e) {
             e.preventDefault();
-            changeStep(1); // moves to step 4 success
-        }
-
-        // Verify Member via ID or NIN
-        function verifyMember() {
-            const query = document.getElementById('verifyInput').value.trim().toUpperCase();
-            const resultBox = document.getElementById('verifyResult');
-            if(!query) {
-                alert('Please enter a Membership ID or NIN.');
-                return;
-            }
-
-            const found = members.find(m => m.id.toUpperCase() === query || m.nin === query);
-            resultBox.classList.remove('hidden');
-
-            if(found) {
-                resultBox.innerHTML = `
-                    <div class="bg-emerald-50 border border-emerald-200 p-6 rounded-2xl text-left space-y-4 shadow-sm animate-fade">
-                        <div class="flex items-center justify-between">
-                            <span class="bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Verified Member</span>
-                            <span class="font-mono font-bold text-emerald-800 text-sm">${found.id}</span>
-                        </div>
-                        <div class="flex gap-4 items-center">
-                            <img src="${found.photo}" class="w-16 h-20 object-cover rounded-lg border border-emerald-300 shadow">
-                            <div>
-                                <h4 class="font-black text-lg text-slate-900">${found.name}</h4>
-                                <p class="text-xs text-slate-600">NIN: <span class="font-mono font-semibold">${found.nin}</span></p>
-                                <p class="text-xs text-slate-600">Constituency: <span class="font-semibold">${found.ward}, ${found.lga} LGA, ${found.state} State</span></p>
-                            </div>
-                        </div>
-                        <div class="pt-2 border-t border-emerald-200 flex justify-between items-center text-xs">
-                            <span class="text-slate-600">Dues Status: <strong class="${found.duesPaid ? 'text-emerald-700' : 'text-amber-700'}">${found.duesPaid ? 'Paid (₦' + found.duesAmount + ')' : 'Pending'}</strong></span>
-                            <button onclick="loginAsMember('${found.id}')" class="text-ndcBlue font-bold hover:underline">Open in Member Portal &rarr;</button>
-                        </div>
-                    </div>
-                `;
-            } else {
-                resultBox.innerHTML = `
-                    <div class="bg-red-50 border border-red-200 p-6 rounded-2xl text-center space-y-2 animate-fade">
-                        <div class="w-12 h-12 bg-red-100 text-ndcRed rounded-full flex items-center justify-center text-xl mx-auto">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                        </div>
-                        <h4 class="font-bold text-red-900 text-base">No Record Found</h4>
-                        <p class="text-xs text-red-600">No member matches ID or NIN: "${query}". Please check the digits or proceed to register.</p>
-                    </div>
-                `;
-            }
-        }
-
-        // Member Portal Authentication & Actions
-        function memberLogin() {
-            const inputId = document.getElementById('memberLoginId').value.trim().toUpperCase();
-            const found = members.find(m => m.id.toUpperCase() === inputId || m.nin === inputId);
-            if(!found) {
-                alert('Member ID or NIN not found in national database.');
-                return;
-            }
-            loggedInMember = found;
-            renderMemberDashboard();
-        }
-
-        function loginAsMember(id) {
-            loggedInMember = members.find(m => m.id === id);
-            switchTab('member');
-            renderMemberDashboard();
-        }
-
-        function memberLogout() {
-            loggedInMember = null;
-            document.getElementById('memberDashboard').classList.add('hidden');
-            document.getElementById('memberLoginBox').classList.remove('hidden');
-            document.getElementById('memberLoginId').value = '';
-        }
-
-        function renderMemberDashboard() {
-            if(!loggedInMember) return;
-            document.getElementById('memberLoginBox').classList.add('hidden');
-            document.getElementById('memberDashboard').classList.remove('hidden');
-
-            document.getElementById('dashMemberName').textContent = loggedInMember.name;
-            document.getElementById('dashMemberDetails').textContent = `ID: ${loggedInMember.id} | NIN: ${loggedInMember.nin} | ${loggedInMember.ward}, ${loggedInMember.lga} LGA, ${loggedInMember.state} State`;
-
-            // Render Digital Card in Member Portal
-            document.getElementById('dashCardContainer').innerHTML = `
-                <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl text-ndcGold font-black">NDC</div>
-                <div class="flex justify-between items-start mb-4 border-b border-slate-800 pb-3">
-                    <div>
-                        <span class="text-xs font-bold tracking-wider text-ndcGold uppercase">Nigeria Democratic Congress</span>
-                        <h4 class="text-base font-black text-white">OFFICIAL MEMBER ID</h4>
-                    </div>
-                    <div class="bg-ndcRed text-white text-[10px] font-bold px-2 py-1 rounded">ACTIVE</div>
-                </div>
-                <div class="flex gap-4 items-center mb-4">
-                    <img src="${loggedInMember.photo}" class="w-20 h-24 object-cover rounded-lg border-2 border-ndcGold shadow">
-                    <div class="space-y-1 text-xs">
-                        <p class="text-slate-400">Name:</p>
-                        <p class="font-bold text-sm text-white truncate">${loggedInMember.name}</p>
-                        <p class="text-slate-400">ID Number:</p>
-                        <p class="font-mono font-bold text-ndcGold">${loggedInMember.id}</p>
-                        <p class="text-slate-400">NIN:</p>
-                        <p class="font-mono text-slate-200">${loggedInMember.nin}</p>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-2 text-[11px] bg-slate-800/80 p-3 rounded-lg border border-slate-700">
-                    <div><span class="text-slate-400 block">State / LGA:</span> <span class="font-semibold text-white">${loggedInMember.state}, ${loggedInMember.lga}</span></div>
-                    <div><span class="text-slate-400 block">Ward:</span> <span class="font-semibold text-white">${loggedInMember.ward}</span></div>
-                </div>
-            `;
-
-            const badge = document.getElementById('duesStatusBadge');
-            if(loggedInMember.duesPaid) {
-                badge.className = "inline-block mt-2 text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded";
-                badge.textContent = `Paid (Ref: ${loggedInMember.refCode})`;
-            } else {
-                badge.className = "inline-block mt-2 text-xs bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded";
-                badge.textContent = "Pending Payment";
-            }
-        }
-
-        function simulatePaystackPayment() {
-            if(!loggedInMember) return;
-            const amount = 5000;
-            const ref = `PAY-${Math.floor(100000 + Math.random() * 900000)}`;
+            const firstname = document.getElementById('reg-firstname').value;
+            const surname = document.getElementById('reg-surname').value;
+            const state = document.getElementById('reg-state').value;
+            const lga = document.getElementById('reg-lga').value;
+            const category = document.getElementById('reg-category').value;
             
-            // Simulate successful Paystack gateway
-            if(confirm(`[Paystack Simulation]\nProceed with payment of ₦${amount} for Annual Dues?`)) {
-                loggedInMember.duesPaid = true;
-                loggedInMember.duesAmount = amount;
-                loggedInMember.refCode = ref;
-                loggedInMember.duesDate = new Date().toISOString().split('T')[0];
+            // Generate unique ID
+            const randomNum = Math.floor(100000 + Math.random() * 900000);
+            const stateCode = state.substring(0, 2).toUpperCase();
+            const uniqueId = `PM/NIG/${stateCode}/${randomNum}`;
 
-                alert(`Payment Successful!\nReference Code: ${ref}\nThank you for supporting the NDC.`);
-                renderMemberDashboard();
-                refreshAdminTables();
-            }
+            // Update Member Dashboard values dynamically
+            const fullName = `${firstname} ${surname}`;
+            document.getElementById('member-display-name').innerText = `Comrade ${fullName}`;
+            document.getElementById('member-display-id').innerHTML = `Membership Number: <span class="font-bold text-nnm-600">${uniqueId}</span>`;
+            document.getElementById('member-avatar-initials').innerText = `${firstname[0]}${surname[0]}`;
+            
+            // Update Card
+            document.getElementById('card-name').innerText = fullName;
+            document.getElementById('card-category').innerText = category;
+            document.getElementById('card-id-num').innerText = uniqueId;
+            document.getElementById('card-location').innerText = `${state} / ${lga}`;
+
+            // Increment member count in UI
+            const countEl = document.getElementById('home-member-count');
+            const adminCountEl = document.getElementById('admin-total-members');
+            if(countEl) countEl.innerText = "1,245,891";
+            if(adminCountEl) adminCountEl.innerText = "1,245,891";
+
+            alertBox(`Registration Successful! Welcome Comrade ${fullName}. Your unique membership ID is ${uniqueId}. You can now view your digital ID card in the Member Portal.`);
+            switchTab('member');
         }
 
-        // Admin Command Authentication & Dashboard
-        function adminLogin() {
-            const pass = document.getElementById('adminPass').value;
-            if(pass === 'ndc2026' || pass === 'admin') {
-                adminAuthenticated = true;
-                document.getElementById('adminLoginBox').classList.add('hidden');
-                document.getElementById('adminDashboard').classList.remove('hidden');
-                refreshAdminTables();
-            } else {
-                alert('Invalid Secretariat Passcode. (Default passcode: ndc2026)');
-            }
+        function payDues(item) {
+            alertBox(`Initiating secure payment gateway (Paystack/Flutterwave) for ${item}. Payment confirmed successfully!`);
         }
 
-        function adminLogout() {
-            adminAuthenticated = false;
-            document.getElementById('adminDashboard').classList.add('hidden');
-            document.getElementById('adminLoginBox').classList.remove('hidden');
-            document.getElementById('adminPass').value = '';
+        function handleSupportTicket(e) {
+            e.preventDefault();
+            document.getElementById('ticket-subject').value = '';
+            document.getElementById('ticket-message').value = '';
+            alertBox('Support ticket submitted successfully. An administrative officer will respond within 24 hours.');
         }
 
-        function updateCharCount() {
-            const text = document.getElementById('broadcastBodyInput').value;
-            document.getElementById('charCount').textContent = `${text.length} characters`;
+        function approveMember(btn) {
+            const row = btn.closest('tr');
+            row.style.transition = 'opacity 0.5s';
+            row.style.opacity = '0';
+            setTimeout(() => {
+                row.remove();
+                const pendingCount = document.getElementById('admin-pending-count');
+                let count = parseInt(pendingCount.innerText);
+                if (count > 0) pendingCount.innerText = count - 1;
+            }, 500);
+            alertBox('Member application approved successfully. Unique ID and digital card dispatched via SMS & Email.');
         }
 
-        function dispatchBroadcast() {
-            const title = document.getElementById('broadcastTitleInput').value.trim();
-            const body = document.getElementById('broadcastBodyInput').value.trim();
-            const audience = document.getElementById('broadcastAudienceInput').value;
-
-            if(!title || !body) {
-                alert('Please enter both a broadcast title and message body.');
-                return;
-            }
-
-            // Update portal banner
-            const banner = document.getElementById('portalBanner');
-            const bannerText = document.getElementById('portalBannerText');
-            bannerText.textContent = `${title}: ${body}`;
-            banner.classList.remove('hidden');
-
-            // Add to member portal broadcast list
-            const memberBroadcasts = document.getElementById('memberBroadcasts');
-            if(memberBroadcasts) {
-                const div = document.createElement('div');
-                div.className = "bg-purple-50 border-l-4 border-ndcBlue p-3 rounded-r-lg text-xs text-slate-700 animate-fade";
-                div.innerHTML = `<span class="font-bold text-ndcBlue block mb-0.5">${title}</span>${body}`;
-                memberBroadcasts.prepend(div);
-            }
-
-            alert(`Broadcast successfully dispatched via Portal Banner, Email, and SMS to "${audience}".`);
-            document.getElementById('broadcastTitleInput').value = '';
-            document.getElementById('broadcastBodyInput').value = '';
-            document.getElementById('charCount').textContent = '0 characters';
+        function rejectMember(btn) {
+            const row = btn.closest('tr');
+            row.remove();
+            alertBox('Member application returned for correction.');
         }
-
-        function refreshAdminTables() {
-            // Stats
-            document.getElementById('statTotalMembers').textContent = members.length;
-            const totalDues = members.reduce((acc, m) => acc + (m.duesPaid ? m.duesAmount : 0), 0);
-            document.getElementById('statTotalDues').textContent = `₦${totalDues.toLocaleString()}`;
-
-            // Admin Member Directory Table
-            const tbody = document.getElementById('adminTableBody');
-            tbody.innerHTML = '';
-            members.forEach(m => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 transition border-b border-slate-100 text-xs";
-                tr.innerHTML = `
-                    <td class="p-3"><img src="${m.photo}" class="w-10 h-10 object-cover rounded-lg border shadow-sm"></td>
-                    <td class="p-3 font-medium text-slate-900">${m.name}<br><span class="text-slate-500 font-mono">${m.id}</span></td>
-                    <td class="p-3 font-mono text-slate-700">${m.nin}</td>
-                    <td class="p-3 text-slate-600">${m.ward}, ${m.lga} LGA, ${m.state} State</td>
-                    <td class="p-3"><span class="px-2 py-0.5 rounded font-bold ${m.duesPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${m.duesPaid ? 'Paid (₦' + m.duesAmount + ')' : 'Pending'}</span></td>
-                    <td class="p-3">
-                        <button onclick="loginAsMember('${m.id}')" class="text-ndcBlue font-bold hover:underline">Portal View</button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-
-            // Financial Ledger Table
-            const ledgerBody = document.getElementById('ledgerTableBody');
-            ledgerBody.innerHTML = '';
-            const paidMembers = members.filter(m => m.duesPaid);
-            if(paidMembers.length === 0) {
-                ledgerBody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500 text-xs">No financial transactions recorded yet.</td></tr>`;
-            } else {
-                paidMembers.forEach(m => {
-                    const lTr = document.createElement('tr');
-                    lTr.className = "hover:bg-slate-50 transition border-b border-slate-100 text-xs font-mono";
-                    lTr.innerHTML = `
-                        <td class="p-3 text-ndcBlue font-bold">${m.refCode}</td>
-                        <td class="p-3 font-sans font-semibold text-slate-900">${m.name}</td>
-                        <td class="p-3 text-slate-600">${m.id} / ${m.nin}</td>
-                        <td class="p-3 font-sans text-slate-600">${m.ward}, ${m.lga} LGA, ${m.state}</td>
-                        <td class="p-3 font-bold text-emerald-700">₦${m.duesAmount.toLocaleString()}</td>
-                        <td class="p-3 text-slate-500">${m.duesDate || '2026-03-01'}</td>
-                        <td class="p-3"><span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px]">Verified Paystack</span></td>
-                    `;
-                    ledgerBody.appendChild(lTr);
-                });
-            }
-        }
-
-        function filterAdminTable() {
-            const query = document.getElementById('adminSearch').value.toLowerCase();
-            const rows = document.querySelectorAll('#adminTableBody tr');
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(query) ? '' : 'none';
-            });
-        }
-
-        function exportLedgerCSV() {
-            let csv = "RefCode,Name,ID,NIN,Ward,LGA,State,Amount,Date\n";
-            members.filter(m => m.duesPaid).forEach(m => {
-                csv += `${m.refCode},"${m.name}",${m.id},${m.nin},"${m.ward}","${m.lga}","${m.state}",${m.duesAmount},${m.duesDate}\n`;
-            });
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.setAttribute('href', url);
-            a.setAttribute('download', 'NDC_Secretariat_Financial_Ledger.csv');
-            a.click();
-        }
-
-        // Initialize default view
-        window.onload = function() {
-            refreshAdminTables();
-        };
     </script>
 </body>
 </html>
-
