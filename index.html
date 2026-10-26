@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -40,7 +41,6 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         
-        /* Animated Fingerprint / Thumbprint Security Background */
         @keyframes slideBackground {
             0% { background-position: 0 0; }
             100% { background-position: 60px 60px; }
@@ -51,24 +51,33 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); opacity: 0.08; }
-            50% { transform: scale(1.03); opacity: 0.14; }
-        }
-
         .animate-fade-in {
             animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .thumbprint-bg {
+        /* Light mode thumbprint background */
+        .thumbprint-bg-light {
             background-color: #f8fafc;
             background-image: radial-gradient(#0b6623 0.9px, transparent 0.9px), radial-gradient(#0b6623 0.9px, #f8fafc 0.9px);
             background-size: 40px 40px;
             background-position: 0 0, 20px 20px;
         }
 
-        .fingerprint-pattern {
+        /* Dark mode thumbprint background */
+        .thumbprint-bg-dark {
+            background-color: #0b130f;
+            background-image: radial-gradient(#10b981 0.9px, transparent 0.9px), radial-gradient(#10b981 0.9px, #0b130f 0.9px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+
+        .fingerprint-pattern-light {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd' stroke='%230b6623' stroke-width='1' stroke-opacity='0.12' fill='none'%3E%3Cpath d='M50 10c22.09 0 40 17.91 40 40s-17.91 40-40 40S10 72.09 10 50 27.91 10 50 10zm0 6c18.778 0 34 15.222 34 34s-15.222 34-34 34S16 68.778 16 50s15.222-34 34-34zm0 6c15.464 0 28 12.536 28 28s-12.536 28-28 28-28-12.536-28-28 12.536-28 28-28zm0 6c12.14 0 22 9.86 22 22s-9.86 22-22 22-22-9.86-22-22 9.86-22 22-22z'/%3E%3C/g%3E%3C/svg%3E");
+            animation: slideBackground 25s linear infinite;
+        }
+
+        .fingerprint-pattern-dark {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd' stroke='%2310b981' stroke-width='1' stroke-opacity='0.18' fill='none'%3E%3Cpath d='M50 10c22.09 0 40 17.91 40 40s-17.91 40-40 40S10 72.09 10 50 27.91 10 50 10zm0 6c18.778 0 34 15.222 34 34s-15.222 34-34 34S16 68.778 16 50s15.222-34 34-34zm0 6c15.464 0 28 12.536 28 28s-12.536 28-28 28-28-12.536-28-28 12.536-28 28-28zm0 6c12.14 0 22 9.86 22 22s-9.86 22-22 22-22-9.86-22-22 9.86-22 22-22z'/%3E%3C/g%3E%3C/svg%3E");
             animation: slideBackground 25s linear infinite;
         }
 
@@ -79,10 +88,9 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #0b6623; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #054414; }
     </style>
 </head>
-<body class="thumbprint-bg text-gray-800 antialiased min-h-screen flex flex-col justify-between">
+<body id="app-body" class="thumbprint-bg-light text-gray-800 dark:text-gray-100 dark:bg-nnm-900 antialiased min-h-screen flex flex-col justify-between transition-colors duration-300">
 
     <!-- Top Notification Bar -->
     <div class="bg-nnm-700 text-white text-xs sm:text-sm py-2 px-4 text-center font-medium shadow-inner flex items-center justify-center gap-2 animate-fade-in">
@@ -92,7 +100,7 @@
     </div>
 
     <!-- Navigation Bar -->
-    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 shadow-md border-b border-green-100">
+    <header class="bg-white/95 dark:bg-nnm-800/95 backdrop-blur-md sticky top-0 z-50 shadow-md border-b border-green-100 dark:border-green-900 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
                 <!-- Logo & Brand with Provided Emblem -->
@@ -101,25 +109,33 @@
                         <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=150" alt="NNM Logo" onerror="this.src='https://placehold.co/100x100/0b6623/ffffff?text=NNM';" class="w-full h-full object-cover">
                     </div>
                     <div>
-                        <span class="text-base sm:text-lg font-black text-nnm-700 tracking-tight block leading-tight">NEW NIGERIA MOVEMENT</span>
-                        <span class="text-[10px] text-gray-500 font-extrabold tracking-widest uppercase">RESCUE • REBUILD • RESTORE[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)</span>
+                        <span class="text-base sm:text-lg font-black text-nnm-700 dark:text-gold-400 tracking-tight block leading-tight">NEW NIGERIA MOVEMENT</span>
+                        <span class="text-[10px] text-gray-500 dark:text-gray-300 font-extrabold tracking-widest uppercase">RESCUE • REBUILD • RESTORE[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)</span>
                     </div>
                 </div>
 
                 <!-- Desktop Menu -->
                 <nav class="hidden lg:flex items-center space-x-1 font-semibold text-sm">
-                    <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-3.5 py-2 rounded-xl text-nnm-700 hover:bg-nnm-50 transition active-tab">Home</button>
-                    <button onclick="switchTab('about')" id="nav-about" class="nav-btn px-3.5 py-2 rounded-xl text-gray-600 hover:bg-nnm-50 hover:text-nnm-700 transition">About Us</button>
-                    <button onclick="switchTab('manifesto')" id="nav-manifesto" class="nav-btn px-3.5 py-2 rounded-xl text-gray-600 hover:bg-nnm-50 hover:text-nnm-700 transition">Manifesto</button>
-                    <button onclick="switchTab('structure')" id="nav-structure" class="nav-btn px-3.5 py-2 rounded-xl text-gray-600 hover:bg-nnm-50 hover:text-nnm-700 transition">Structure</button>
-                    <button onclick="switchTab('register')" id="nav-register" class="nav-btn px-3.5 py-2 rounded-xl text-gray-600 hover:bg-nnm-50 hover:text-nnm-700 transition">Register</button>
-                    <button onclick="switchTab('member')" id="nav-member" class="nav-btn px-3.5 py-2 rounded-xl text-gray-600 hover:bg-nnm-50 hover:text-nnm-700 transition"><i class="fa-solid fa-id-card mr-1 text-gold-600"></i> Member Portal</button>
+                    <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-3.5 py-2 rounded-xl text-nnm-700 dark:text-gray-200 hover:bg-nnm-50 dark:hover:bg-nnm-700 transition">Home</button>
+                    <button onclick="switchTab('about')" id="nav-about" class="nav-btn px-3.5 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-nnm-50 dark:hover:bg-nnm-700 hover:text-nnm-700 transition">About Us</button>
+                    <button onclick="switchTab('manifesto')" id="nav-manifesto" class="nav-btn px-3.5 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-nnm-50 dark:hover:bg-nnm-700 hover:text-nnm-700 transition">Manifesto</button>
+                    <button onclick="switchTab('structure')" id="nav-structure" class="nav-btn px-3.5 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-nnm-50 dark:hover:bg-nnm-700 hover:text-nnm-700 transition">Structure</button>
+                    <button onclick="switchTab('register')" id="nav-register" class="nav-btn px-3.5 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-nnm-50 dark:hover:bg-nnm-700 hover:text-nnm-700 transition">Register</button>
+                    <button onclick="switchTab('member')" id="nav-member" class="nav-btn px-3.5 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-nnm-50 dark:hover:bg-nnm-700 hover:text-nnm-700 transition"><i class="fa-solid fa-id-card mr-1 text-gold-600"></i> Member Portal</button>
                     <button onclick="switchTab('admin')" id="nav-admin" class="nav-btn px-3.5 py-2 rounded-xl bg-nnm-700 text-white hover:bg-nnm-800 transition ml-2 shadow-sm"><i class="fa-solid fa-user-shield mr-1"></i> Admin HQ</button>
+                    
+                    <!-- Theme Toggle Switch -->
+                    <button onclick="toggleTheme()" id="theme-toggle-btn" class="ml-3 p-2.5 rounded-xl bg-gray-100 dark:bg-nnm-700 text-gray-700 dark:text-gold-400 hover:scale-110 transition shadow" title="Toggle Light/Dark Mode">
+                        <i id="theme-icon" class="fa-solid fa-moon"></i>
+                    </button>
                 </nav>
 
-                <!-- Mobile Menu Button -->
-                <div class="lg:hidden flex items-center">
-                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2 rounded-md text-gray-700 hover:text-nnm-700 hover:bg-gray-100 focus:outline-none">
+                <!-- Mobile Menu Button & Theme Switch -->
+                <div class="lg:hidden flex items-center space-x-2">
+                    <button onclick="toggleTheme()" class="p-2 rounded-lg bg-gray-100 dark:bg-nnm-700 text-gray-700 dark:text-gold-400">
+                        <i class="fa-solid fa-moon mobile-theme-icon"></i>
+                    </button>
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-nnm-700 hover:bg-gray-100 dark:hover:bg-nnm-700 focus:outline-none">
                         <i class="fa-solid fa-bars text-2xl"></i>
                     </button>
                 </div>
@@ -127,13 +143,13 @@
         </div>
 
         <!-- Mobile Dropdown Menu -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t px-4 pt-2 pb-4 space-y-2 animate-fade-in">
-            <button onclick="switchTab('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-nnm-700 bg-nnm-50">Home</button>
-            <button onclick="switchTab('about'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">About Us</button>
-            <button onclick="switchTab('manifesto'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Manifesto</button>
-            <button onclick="switchTab('structure'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Structure</button>
-            <button onclick="switchTab('register'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Register Membership</button>
-            <button onclick="switchTab('member'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50"><i class="fa-solid fa-id-card mr-2 text-gold-600"></i> Member Portal</button>
+        <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-nnm-800 border-t dark:border-green-900 px-4 pt-2 pb-4 space-y-2 animate-fade-in">
+            <button onclick="switchTab('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-nnm-700 dark:text-white bg-nnm-50 dark:bg-nnm-700">Home</button>
+            <button onclick="switchTab('about'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-nnm-700">About Us</button>
+            <button onclick="switchTab('manifesto'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-nnm-700">Manifesto</button>
+            <button onclick="switchTab('structure'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-nnm-700">Structure</button>
+            <button onclick="switchTab('register'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-nnm-700">Register Membership</button>
+            <button onclick="switchTab('member'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-nnm-700"><i class="fa-solid fa-id-card mr-2 text-gold-600"></i> Member Portal</button>
             <button onclick="switchTab('admin'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium bg-nnm-700 text-white"><i class="fa-solid fa-user-shield mr-2"></i> Admin HQ</button>
         </div>
     </header>
@@ -144,7 +160,7 @@
         <!-- ================= 1. HOME TAB ================= -->
         <div id="tab-home" class="tab-content animate-fade-in">
             <!-- Hero Banner -->
-            <section class="gradient-hero text-white py-20 lg:py-32 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden fingerprint-pattern">
+            <section class="gradient-hero text-white py-20 lg:py-32 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden fingerprint-pattern-light" id="hero-pattern">
                 <div class="max-w-4xl mx-auto relative z-10 animate-fade-in">
                     <span class="bg-gold-500 text-nnm-900 font-extrabold text-xs sm:text-sm uppercase tracking-wider px-4 py-1.5 rounded-full inline-block mb-6 shadow-md transform hover:scale-105 transition duration-300">
                         Official Digital Headquarters
@@ -174,70 +190,70 @@
             <!-- Core Pillars -->
             <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 <div class="text-center mb-16 animate-fade-in">
-                    <h2 class="text-3xl font-black text-nnm-700 sm:text-4xl">Our Three-Fold Rescue Mission[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span)</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto font-medium">Grounded in integrity, transparency, and grassroots empowerment across all 774 Local Government Areas.</p>
+                    <h2 class="text-3xl font-black text-nnm-700 dark:text-gold-400 sm:text-4xl">Our Three-Fold Rescue Mission[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span)</h2>
+                    <p class="mt-4 text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto font-medium">Grounded in integrity, transparency, and grassroots empowerment across all 774 Local Government Areas.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-nnm-600 hover:shadow-2xl transition transform hover:-translate-y-2 duration-300">
-                        <div class="w-14 h-14 bg-nnm-50 text-nnm-600 rounded-xl flex items-center justify-center text-2xl font-bold mb-6">
+                    <div class="bg-white dark:bg-nnm-800 p-8 rounded-2xl shadow-lg border-t-4 border-nnm-600 hover:shadow-2xl transition transform hover:-translate-y-2 duration-300">
+                        <div class="w-14 h-14 bg-nnm-50 dark:bg-nnm-700 text-nnm-600 dark:text-green-400 rounded-xl flex items-center justify-center text-2xl font-bold mb-6">
                             <i class="fa-solid fa-shield-heart"></i>
                         </div>
-                        <h3 class="text-2xl font-bold text-nnm-700 mb-3">1. Rescue It[span_14](start_span)[span_14](end_span)[span_15](start_span)[span_15](end_span)</h3>
-                        <p class="text-gray-600 leading-relaxed font-normal">Liberating our nation from poor governance, insecurity, corruption, and systemic decay by mobilizing conscious Nigerian citizens at the polling unit level.</p>
+                        <h3 class="text-2xl font-bold text-nnm-700 dark:text-white mb-3">1. Rescue It[span_14](start_span)[span_14](end_span)[span_15](start_span)[span_15](end_span)</h3>
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed font-normal">Liberating our nation from poor governance, insecurity, corruption, and systemic decay by mobilizing conscious Nigerian citizens at the polling unit level.</p>
                     </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-gold-500 hover:shadow-2xl transition transform hover:-translate-y-2 duration-300">
-                        <div class="w-14 h-14 bg-yellow-50 text-gold-600 rounded-xl flex items-center justify-center text-2xl font-bold mb-6">
+                    <div class="bg-white dark:bg-nnm-800 p-8 rounded-2xl shadow-lg border-t-4 border-gold-500 hover:shadow-2xl transition transform hover:-translate-y-2 duration-300">
+                        <div class="w-14 h-14 bg-yellow-50 dark:bg-nnm-700 text-gold-600 dark:text-gold-400 rounded-xl flex items-center justify-center text-2xl font-bold mb-6">
                             <i class="fa-solid fa-city"></i>
                         </div>
-                        <h3 class="text-2xl font-bold text-nnm-700 mb-3">2. Rebuild It[span_16](start_span)[span_16](end_span)[span_17](start_span)[span_17](end_span)</h3>
-                        <p class="text-gray-600 leading-relaxed font-normal">Establishing robust economic foundations, world-class infrastructure, quality healthcare, and sustainable educational frameworks for future generations.</p>
+                        <h3 class="text-2xl font-bold text-nnm-700 dark:text-white mb-3">2. Rebuild It[span_16](start_span)[span_16](end_span)[span_17](start_span)[span_17](end_span)</h3>
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed font-normal">Establishing robust economic foundations, world-class infrastructure, quality healthcare, and sustainable educational frameworks for future generations.</p>
                     </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-nnm-700 hover:shadow-2xl transition transform hover:-translate-y-2 duration-300">
-                        <div class="w-14 h-14 bg-nnm-50 text-nnm-700 rounded-xl flex items-center justify-center text-2xl font-bold mb-6">
+                    <div class="bg-white dark:bg-nnm-800 p-8 rounded-2xl shadow-lg border-t-4 border-nnm-700 hover:shadow-2xl transition transform hover:-translate-y-2 duration-300">
+                        <div class="w-14 h-14 bg-nnm-50 dark:bg-nnm-700 text-nnm-700 dark:text-green-400 rounded-xl flex items-center justify-center text-2xl font-bold mb-6">
                             <i class="fa-solid fa-scale-balanced"></i>
                         </div>
-                        <h3 class="text-2xl font-bold text-nnm-700 mb-3">3. Restore It[span_18](start_span)[span_18](end_span)[span_19](start_span)[span_19](end_span)</h3>
-                        <p class="text-gray-600 leading-relaxed font-normal">Restoring national dignity, rule of law, institutional integrity, social justice, and international respect for the green-white-green flag.</p>
+                        <h3 class="text-2xl font-bold text-nnm-700 dark:text-white mb-3">3. Restore It[span_18](start_span)[span_18](end_span)[span_19](start_span)[span_19](end_span)</h3>
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed font-normal">Restoring national dignity, rule of law, institutional integrity, social justice, and international respect for the green-white-green flag.</p>
                     </div>
                 </div>
             </section>
 
             <!-- Financial Transparency & Public News Preview -->
-            <section class="bg-white/80 backdrop-blur-md py-16 px-4 sm:px-6 lg:px-8 border-t border-b border-green-100">
+            <section class="bg-white/80 dark:bg-nnm-800/80 backdrop-blur-md py-16 px-4 sm:px-6 lg:px-8 border-t border-b border-green-100 dark:border-green-900 transition-colors">
                 <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
-                        <span class="text-nnm-600 font-extrabold uppercase tracking-widest text-xs">Public Accountability</span>
-                        <h2 class="text-3xl font-black text-nnm-700 mt-2 mb-4">Transparent Financial Stewardship</h2>
-                        <p class="text-gray-600 mb-6 leading-relaxed font-normal">
+                        <span class="text-nnm-600 dark:text-green-400 font-extrabold uppercase tracking-widest text-xs">Public Accountability</span>
+                        <h2 class="text-3xl font-black text-nnm-700 dark:text-white mt-2 mb-4">Transparent Financial Stewardship</h2>
+                        <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed font-normal">
                             Unlike traditional political setups, the New Nigeria Movement operates on open-book principles. All member dues, authorized contributions, and project expenditures are tracked digitally with full audit trails.
                         </p>
                         <div class="grid grid-cols-2 gap-4 mb-6">
-                            <div class="bg-nnm-50 p-4 rounded-xl shadow-sm border border-green-200 transform hover:scale-105 transition">
-                                <span class="text-xs text-gray-500 font-bold block">Total Movement Fund</span>
-                                <span class="text-2xl font-black text-nnm-700">₦48,250,000</span>
+                            <div class="bg-nnm-50 dark:bg-nnm-700 p-4 rounded-xl shadow-sm border border-green-200 dark:border-green-800 transform hover:scale-105 transition">
+                                <span class="text-xs text-gray-500 dark:text-gray-300 font-bold block">Total Movement Fund</span>
+                                <span class="text-2xl font-black text-nnm-700 dark:text-gold-400">₦48,250,000</span>
                             </div>
-                            <div class="bg-nnm-50 p-4 rounded-xl shadow-sm border border-green-200 transform hover:scale-105 transition">
-                                <span class="text-xs text-gray-500 font-bold block">Registered Comrades</span>
-                                <span id="home-member-count" class="text-2xl font-black text-gold-600">1,245,890</span>
+                            <div class="bg-nnm-50 dark:bg-nnm-700 p-4 rounded-xl shadow-sm border border-green-200 dark:border-green-800 transform hover:scale-105 transition">
+                                <span class="text-xs text-gray-500 dark:text-gray-300 font-bold block">Registered Comrades</span>
+                                <span id="home-member-count" class="text-2xl font-black text-gold-600 dark:text-gold-400">1,245,890</span>
                             </div>
                         </div>
                         <button onclick="switchTab('register')" class="bg-nnm-700 text-white font-bold px-6 py-3 rounded-xl hover:bg-nnm-800 transition shadow">Become a Registered Member</button>
                     </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-200">
-                        <h3 class="text-xl font-bold text-nnm-700 mb-6 flex items-center justify-between">
+                    <div class="bg-white dark:bg-nnm-700 p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-green-800">
+                        <h3 class="text-xl font-bold text-nnm-700 dark:text-white mb-6 flex items-center justify-between">
                             <span>Latest Announcements</span>
-                            <span class="text-xs text-nnm-600 font-semibold bg-nnm-50 px-2.5 py-1 rounded-full">Official Updates</span>
+                            <span class="text-xs text-nnm-600 dark:text-green-300 font-semibold bg-nnm-50 dark:bg-nnm-800 px-2.5 py-1 rounded-full">Official Updates</span>
                         </h3>
                         <div class="space-y-4">
-                            <div class="p-4 rounded-xl bg-gray-50 border-l-4 border-nnm-600 hover:bg-nnm-50 transition">
+                            <div class="p-4 rounded-xl bg-gray-50 dark:bg-nnm-800 border-l-4 border-nnm-600 hover:bg-nnm-50 transition">
                                 <span class="text-xs font-bold text-gray-400">October 26, 2026</span>
-                                <h4 class="font-bold text-nnm-700 text-sm">National Executive Council Approves 2027 Grassroots Mobilization Strategy</h4>
-                                <p class="text-xs text-gray-600 mt-1 font-normal">All State and LGA chapters are directed to complete ward-level coordination units by next month.</p>
+                                <h4 class="font-bold text-nnm-700 dark:text-white text-sm">National Executive Council Approves 2027 Grassroots Mobilization Strategy</h4>
+                                <p class="text-xs text-gray-600 dark:text-gray-300 mt-1 font-normal">All State and LGA chapters are directed to complete ward-level coordination units by next month.</p>
                             </div>
-                            <div class="p-4 rounded-xl bg-gray-50 border-l-4 border-gold-500 hover:bg-yellow-50 transition">
+                            <div class="p-4 rounded-xl bg-gray-50 dark:bg-nnm-800 border-l-4 border-gold-500 hover:bg-yellow-50 transition">
                                 <span class="text-xs font-bold text-gray-400">October 20, 2026</span>
-                                <h4 class="font-bold text-nnm-700 text-sm">Digital ID Card Generation System Live with Biometric & PVC Verification</h4>
-                                <p class="text-xs text-gray-600 mt-1 font-normal">Members can now log into their member dashboard to download their PVC-ready digital ID cards with secure QR codes.</p>
+                                <h4 class="font-bold text-nnm-700 dark:text-white text-sm">Digital ID Card Generation System Live with Biometric & PVC Verification</h4>
+                                <p class="text-xs text-gray-600 dark:text-gray-300 mt-1 font-normal">Members can now log into their member dashboard to download their PVC-ready digital ID cards with secure QR codes.</p>
                             </div>
                         </div>
                     </div>
@@ -248,61 +264,61 @@
         <!-- ================= 2. ABOUT US TAB ================= -->
         <div id="tab-about" class="tab-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-fade-in">
             <div class="text-center max-w-3xl mx-auto mb-16">
-                <span class="bg-nnm-100 text-nnm-700 px-3 py-1 rounded-full text-xs font-bold uppercase">About The Movement</span>
-                <h1 class="text-3xl sm:text-4xl font-black text-nnm-700 mt-3 mb-4">About New Nigeria Movement (NNM)</h1>
-                <p class="text-gray-600 text-lg font-normal">A citizen-powered political movement committed to reclaiming Nigeria's destiny through purposeful leadership, active participation, and community-driven development.</p>
+                <span class="bg-nnm-100 dark:bg-nnm-800 text-nnm-700 dark:text-green-400 px-3 py-1 rounded-full text-xs font-bold uppercase">About The Movement</span>
+                <h1 class="text-3xl sm:text-4xl font-black text-nnm-700 dark:text-white mt-3 mb-4">About New Nigeria Movement (NNM)</h1>
+                <p class="text-gray-600 dark:text-gray-300 text-lg font-normal">A citizen-powered political movement committed to reclaiming Nigeria's destiny through purposeful leadership, active participation, and community-driven development.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-                <div class="bg-white p-8 rounded-2xl shadow-md border border-gray-100 hover:shadow-xl transition">
-                    <h3 class="text-2xl font-bold text-nnm-700 mb-4 flex items-center gap-3">
+                <div class="bg-white dark:bg-nnm-800 p-8 rounded-2xl shadow-md border border-gray-100 dark:border-green-900 hover:shadow-xl transition">
+                    <h3 class="text-2xl font-bold text-nnm-700 dark:text-white mb-4 flex items-center gap-3">
                         <i class="fa-solid fa-eye text-gold-500"></i> Our Vision
                     </h3>
-                    <p class="text-gray-700 leading-relaxed font-normal">
+                    <p class="text-gray-700 dark:text-gray-300 leading-relaxed font-normal">
                         To build a prosperous, secure, united, and egalitarian Nigeria where every citizen has equal opportunity to thrive, innovate, and live in dignity, driven by world-class public service and patriotic leadership.
                     </p>
                 </div>
-                <div class="bg-white p-8 rounded-2xl shadow-md border border-gray-100 hover:shadow-xl transition">
-                    <h3 class="text-2xl font-bold text-nnm-700 mb-4 flex items-center gap-3">
-                        <i class="fa-solid fa-bullseye text-nnm-600"></i> Our Mission
+                <div class="bg-white dark:bg-nnm-800 p-8 rounded-2xl shadow-md border border-gray-100 dark:border-green-900 hover:shadow-xl transition">
+                    <h3 class="text-2xl font-bold text-nnm-700 dark:text-white mb-4 flex items-center gap-3">
+                        <i class="fa-solid fa-bullseye text-nnm-600 dark:text-green-400"></i> Our Mission
                     </h3>
-                    <p class="text-gray-700 leading-relaxed font-normal">
+                    <p class="text-gray-700 dark:text-gray-300 leading-relaxed font-normal">
                         To mobilize, organize, and empower Nigerians across all strata of society to participate actively in democratic governance, install credible leaders, and enforce absolute accountability at all levels of government.
                     </p>
                 </div>
             </div>
 
             <!-- National Leadership Directory Preview -->
-            <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 mb-12">
-                <h3 class="text-2xl font-bold text-nnm-700 mb-6 text-center">National Executive Committee</h3>
+            <div class="bg-white dark:bg-nnm-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-green-900 mb-12">
+                <h3 class="text-2xl font-bold text-nnm-700 dark:text-white mb-6 text-center">National Executive Committee</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="text-center p-4 bg-gray-50 rounded-xl hover:bg-nnm-50 transition transform hover:-translate-y-1">
-                        <div class="w-24 h-24 bg-nnm-200 rounded-full mx-auto mb-3 flex items-center justify-center text-nnm-700 text-3xl font-black border-2 border-gold-500 shadow-inner">
+                    <div class="text-center p-4 bg-gray-50 dark:bg-nnm-700 rounded-xl hover:bg-nnm-50 dark:hover:bg-nnm-600 transition transform hover:-translate-y-1">
+                        <div class="w-24 h-24 bg-nnm-200 dark:bg-nnm-800 rounded-full mx-auto mb-3 flex items-center justify-center text-nnm-700 dark:text-gold-400 text-3xl font-black border-2 border-gold-500 shadow-inner">
                             CN
                         </div>
-                        <h4 class="font-bold text-nnm-700">Comrade Nnamdi Okafor</h4>
-                        <span class="text-xs text-gray-500 block font-semibold">National Chairman</span>
+                        <h4 class="font-bold text-nnm-700 dark:text-white">Comrade Nnamdi Okafor</h4>
+                        <span class="text-xs text-gray-500 dark:text-gray-300 block font-semibold">National Chairman</span>
                     </div>
-                    <div class="text-center p-4 bg-gray-50 rounded-xl hover:bg-nnm-50 transition transform hover:-translate-y-1">
-                        <div class="w-24 h-24 bg-nnm-200 rounded-full mx-auto mb-3 flex items-center justify-center text-nnm-700 text-3xl font-black border-2 border-gold-500 shadow-inner">
+                    <div class="text-center p-4 bg-gray-50 dark:bg-nnm-700 rounded-xl hover:bg-nnm-50 dark:hover:bg-nnm-600 transition transform hover:-translate-y-1">
+                        <div class="w-24 h-24 bg-nnm-200 dark:bg-nnm-800 rounded-full mx-auto mb-3 flex items-center justify-center text-nnm-700 dark:text-gold-400 text-3xl font-black border-2 border-gold-500 shadow-inner">
                             AH
                         </div>
-                        <h4 class="font-bold text-nnm-700">Alhaji Aminu Bello</h4>
-                        <span class="text-xs text-gray-500 block font-semibold">Deputy National Chairman</span>
+                        <h4 class="font-bold text-nnm-700 dark:text-white">Alhaji Aminu Bello</h4>
+                        <span class="text-xs text-gray-500 dark:text-gray-300 block font-semibold">Deputy National Chairman</span>
                     </div>
-                    <div class="text-center p-4 bg-gray-50 rounded-xl hover:bg-nnm-50 transition transform hover:-translate-y-1">
-                        <div class="w-24 h-24 bg-nnm-200 rounded-full mx-auto mb-3 flex items-center justify-center text-nnm-700 text-3xl font-black border-2 border-gold-500 shadow-inner">
+                    <div class="text-center p-4 bg-gray-50 dark:bg-nnm-700 rounded-xl hover:bg-nnm-50 dark:hover:bg-nnm-600 transition transform hover:-translate-y-1">
+                        <div class="w-24 h-24 bg-nnm-200 dark:bg-nnm-800 rounded-full mx-auto mb-3 flex items-center justify-center text-nnm-700 dark:text-gold-400 text-3xl font-black border-2 border-gold-500 shadow-inner">
                             FA
                         </div>
-                        <h4 class="font-bold text-nnm-700">Dr. Folashade Adebayo</h4>
-                        <span class="text-xs text-gray-500 block font-semibold">National Secretary</span>
+                        <h4 class="font-bold text-nnm-700 dark:text-white">Dr. Folashade Adebayo</h4>
+                        <span class="text-xs text-gray-500 dark:text-gray-300 block font-semibold">National Secretary</span>
                     </div>
-                    <div class="text-center p-4 bg-gray-50 rounded-xl hover:bg-nnm-50 transition transform hover:-translate-y-1">
-                        <div class="w-24 h-24 bg-nnm-200 rounded-full mx-auto mb-3 flex items-center justify-center text-nnm-700 text-3xl font-black border-2 border-gold-500 shadow-inner">
+                    <div class="text-center p-4 bg-gray-50 dark:bg-nnm-700 rounded-xl hover:bg-nnm-50 dark:hover:bg-nnm-600 transition transform hover:-translate-y-1">
+                        <div class="w-24 h-24 bg-nnm-200 dark:bg-nnm-800 rounded-full mx-auto mb-3 flex items-center justify-center text-nnm-700 dark:text-gold-400 text-3xl font-black border-2 border-gold-500 shadow-inner">
                             EO
                         </div>
-                        <h4 class="font-bold text-nnm-700">Barr. Emeka Ofor</h4>
-                        <span class="text-xs text-gray-500 block font-semibold">National Legal Adviser</span>
+                        <h4 class="font-bold text-nnm-700 dark:text-white">Barr. Emeka Ofor</h4>
+                        <span class="text-xs text-gray-500 dark:text-gray-300 block font-semibold">National Legal Adviser</span>
                     </div>
                 </div>
             </div>
@@ -311,22 +327,22 @@
         <!-- ================= 3. MANIFESTO TAB ================= -->
         <div id="tab-manifesto" class="tab-content hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-fade-in">
             <div class="text-center mb-12">
-                <span class="bg-gold-100 text-gold-800 px-3 py-1 rounded-full text-xs font-extrabold uppercase">Policy Blueprint</span>
-                <h1 class="text-3xl sm:text-4xl font-black text-nnm-700 mt-3 mb-4">The New Nigeria Manifesto</h1>
-                <p class="text-gray-600 text-lg">Our core development pillars to transform Nigeria into a beacon of African prosperity.</p>
+                <span class="bg-gold-100 text-gold-800 dark:bg-nnm-700 dark:text-gold-400 px-3 py-1 rounded-full text-xs font-extrabold uppercase">Policy Blueprint</span>
+                <h1 class="text-3xl sm:text-4xl font-black text-nnm-700 dark:text-white mt-3 mb-4">The New Nigeria Manifesto</h1>
+                <p class="text-gray-600 dark:text-gray-300 text-lg">Our core development pillars to transform Nigeria into a beacon of African prosperity.</p>
             </div>
             <div class="space-y-6">
-                <div class="bg-white p-8 rounded-2xl shadow-md border-l-8 border-nnm-700 hover:shadow-lg transition">
-                    <h3 class="text-xl font-bold text-nnm-700 mb-2">1. Economic Revitalization & Job Creation</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">Transitioning from a consumption-based economy to a high-value production and digital technology export hub. Supporting small and medium enterprises with low-interest funding and reliable power.</p>
+                <div class="bg-white dark:bg-nnm-800 p-8 rounded-2xl shadow-md border-l-8 border-nnm-700 hover:shadow-lg transition">
+                    <h3 class="text-xl font-bold text-nnm-700 dark:text-white mb-2">1. Economic Revitalization & Job Creation</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">Transitioning from a consumption-based economy to a high-value production and digital technology export hub. Supporting small and medium enterprises with low-interest funding and reliable power.</p>
                 </div>
-                <div class="bg-white p-8 rounded-2xl shadow-md border-l-8 border-gold-500 hover:shadow-lg transition">
-                    <h3 class="text-xl font-bold text-nnm-700 mb-2">2. National Security & Rule of Law</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">Securing every inch of Nigerian territory through community policing, advanced intelligence technology, and strict adherence to constitutional justice without bias.</p>
+                <div class="bg-white dark:bg-nnm-800 p-8 rounded-2xl shadow-md border-l-8 border-gold-500 hover:shadow-lg transition">
+                    <h3 class="text-xl font-bold text-nnm-700 dark:text-white mb-2">2. National Security & Rule of Law</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">Securing every inch of Nigerian territory through community policing, advanced intelligence technology, and strict adherence to constitutional justice without bias.</p>
                 </div>
-                <div class="bg-white p-8 rounded-2xl shadow-md border-l-8 border-nnm-600 hover:shadow-lg transition">
-                    <h3 class="text-xl font-bold text-nnm-700 mb-2">3. Universal Education & Healthcare Reform</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">Upgrading public schools to match global standards, providing free primary healthcare in all 8,812 wards, and eliminating medical tourism through world-class local facilities.</p>
+                <div class="bg-white dark:bg-nnm-800 p-8 rounded-2xl shadow-md border-l-8 border-nnm-600 hover:shadow-lg transition">
+                    <h3 class="text-xl font-bold text-nnm-700 dark:text-white mb-2">3. Universal Education & Healthcare Reform</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">Upgrading public schools to match global standards, providing free primary healthcare in all 8,812 wards, and eliminating medical tourism through world-class local facilities.</p>
                 </div>
             </div>
         </div>
@@ -334,58 +350,58 @@
         <!-- ================= 4. ORGANIZATIONAL STRUCTURE TAB ================= -->
         <div id="tab-structure" class="tab-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-fade-in">
             <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="bg-nnm-100 text-nnm-700 px-3 py-1 rounded-full text-xs font-bold uppercase">Hierarchical Network</span>
-                <h1 class="text-3xl font-black text-nnm-700 mt-3 mb-4">Organizational Structure</h1>
-                <p class="text-gray-600">The New Nigeria Movement is built from the grassroots up, operating seamlessly across five distinct administrative tiers.</p>
+                <span class="bg-nnm-100 dark:bg-nnm-800 text-nnm-700 dark:text-green-400 px-3 py-1 rounded-full text-xs font-bold uppercase">Hierarchical Network</span>
+                <h1 class="text-3xl font-black text-nnm-700 dark:text-white mt-3 mb-4">Organizational Structure</h1>
+                <p class="text-gray-600 dark:text-gray-300">The New Nigeria Movement is built from the grassroots up, operating seamlessly across five distinct administrative tiers.</p>
             </div>
 
             <div class="space-y-6 max-w-4xl mx-auto">
-                <div class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-nnm-700 flex items-center justify-between hover:scale-[1.01] transition">
+                <div class="bg-white dark:bg-nnm-800 p-6 rounded-2xl shadow-md border-l-8 border-nnm-700 flex items-center justify-between hover:scale-[1.01] transition">
                     <div>
-                        <span class="text-xs font-extrabold text-nnm-600 uppercase">Tier 1</span>
-                        <h3 class="text-xl font-bold text-nnm-700">National Headquarters</h3>
-                        <p class="text-sm text-gray-600 font-normal">Overall national strategy, national executive oversight, and general movement policy.</p>
+                        <span class="text-xs font-extrabold text-nnm-600 dark:text-green-400 uppercase">Tier 1</span>
+                        <h3 class="text-xl font-bold text-nnm-700 dark:text-white">National Headquarters</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 font-normal">Overall national strategy, national executive oversight, and general movement policy.</p>
                     </div>
-                    <span class="bg-nnm-50 text-nnm-700 font-bold px-4 py-2 rounded-xl shadow-sm">Abuja (FCT)</span>
+                    <span class="bg-nnm-50 dark:bg-nnm-700 text-nnm-700 dark:text-white font-bold px-4 py-2 rounded-xl shadow-sm">Abuja (FCT)</span>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-nnm-600 flex items-center justify-between hover:scale-[1.01] transition">
+                <div class="bg-white dark:bg-nnm-800 p-6 rounded-2xl shadow-md border-l-8 border-nnm-600 flex items-center justify-between hover:scale-[1.01] transition">
                     <div>
-                        <span class="text-xs font-extrabold text-nnm-600 uppercase">Tier 2</span>
-                        <h3 class="text-xl font-bold text-nnm-700">State Chapters (36 States + FCT)</h3>
-                        <p class="text-sm text-gray-600 font-normal">State-level coordination, gubernatorial campaign committees, and state executive councils.</p>
+                        <span class="text-xs font-extrabold text-nnm-600 dark:text-green-400 uppercase">Tier 2</span>
+                        <h3 class="text-xl font-bold text-nnm-700 dark:text-white">State Chapters (36 States + FCT)</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 font-normal">State-level coordination, gubernatorial campaign committees, and state executive councils.</p>
                     </div>
-                    <span class="bg-nnm-50 text-nnm-700 font-bold px-4 py-2 rounded-xl shadow-sm">37 Chapters</span>
+                    <span class="bg-nnm-50 dark:bg-nnm-700 text-nnm-700 dark:text-white font-bold px-4 py-2 rounded-xl shadow-sm">37 Chapters</span>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-gold-500 flex items-center justify-between hover:scale-[1.01] transition">
+                <div class="bg-white dark:bg-nnm-800 p-6 rounded-2xl shadow-md border-l-8 border-gold-500 flex items-center justify-between hover:scale-[1.01] transition">
                     <div>
-                        <span class="text-xs font-extrabold text-gold-600 uppercase">Tier 3</span>
-                        <h3 class="text-xl font-bold text-nnm-700">Local Government Areas (LGA)</h3>
-                        <p class="text-sm text-gray-600 font-normal">774 Local Government Area chapters managing municipal mobilizations and local campaigns.</p>
+                        <span class="text-xs font-extrabold text-gold-600 dark:text-gold-400 uppercase">Tier 3</span>
+                        <h3 class="text-xl font-bold text-nnm-700 dark:text-white">Local Government Areas (LGA)</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 font-normal">774 Local Government Area chapters managing municipal mobilizations and local campaigns.</p>
                     </div>
-                    <span class="bg-yellow-50 text-gold-700 font-bold px-4 py-2 rounded-xl shadow-sm">774 LGAs</span>
+                    <span class="bg-yellow-50 dark:bg-nnm-700 text-gold-700 dark:text-gold-400 font-bold px-4 py-2 rounded-xl shadow-sm">774 LGAs</span>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-nnm-500 flex items-center justify-between hover:scale-[1.01] transition">
+                <div class="bg-white dark:bg-nnm-800 p-6 rounded-2xl shadow-md border-l-8 border-nnm-500 flex items-center justify-between hover:scale-[1.01] transition">
                     <div>
-                        <span class="text-xs font-extrabold text-green-600 uppercase">Tier 4</span>
-                        <h3 class="text-xl font-bold text-nnm-700">Wards (Electoral Districts)</h3>
-                        <p class="text-sm text-gray-600 font-normal">Ward executive committees driving direct membership registration and community engagement.</p>
+                        <span class="text-xs font-extrabold text-green-600 dark:text-green-400 uppercase">Tier 4</span>
+                        <h3 class="text-xl font-bold text-nnm-700 dark:text-white">Wards (Electoral Districts)</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 font-normal">Ward executive committees driving direct membership registration and community engagement.</p>
                     </div>
-                    <span class="bg-green-50 text-green-700 font-bold px-4 py-2 rounded-xl shadow-sm">8,812 Wards</span>
+                    <span class="bg-green-50 dark:bg-nnm-700 text-green-700 dark:text-green-300 font-bold px-4 py-2 rounded-xl shadow-sm">8,812 Wards</span>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-gray-400 flex items-center justify-between hover:scale-[1.01] transition">
+                <div class="bg-white dark:bg-nnm-800 p-6 rounded-2xl shadow-md border-l-8 border-gray-400 flex items-center justify-between hover:scale-[1.01] transition">
                     <div>
-                        <span class="text-xs font-extrabold text-gray-500 uppercase">Tier 5</span>
-                        <h3 class="text-xl font-bold text-nnm-700">Polling Units</h3>
-                        <p class="text-sm text-gray-600 font-normal">The grassroots bedrock where elections are won and community protection is enforced.</p>
+                        <span class="text-xs font-extrabold text-gray-500 dark:text-gray-400 uppercase">Tier 5</span>
+                        <h3 class="text-xl font-bold text-nnm-700 dark:text-white">Polling Units</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 font-normal">The grassroots bedrock where elections are won and community protection is enforced.</p>
                     </div>
-                    <span class="bg-gray-100 text-gray-700 font-bold px-4 py-2 rounded-xl shadow-sm">176,846 Units</span>
+                    <span class="bg-gray-100 dark:bg-nnm-700 text-gray-700 dark:text-gray-300 font-bold px-4 py-2 rounded-xl shadow-sm">176,846 Units</span>
                 </div>
             </div>
         </div>
 
         <!-- ================= 5. MEMBERSHIP REGISTRATION TAB ================= -->
         <div id="tab-register" class="tab-content hidden max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-fade-in">
-            <div class="bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden fingerprint-pattern">
+            <div class="bg-white dark:bg-nnm-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-green-900 overflow-hidden fingerprint-pattern-light" id="reg-card-pattern">
                 <!-- Header -->
                 <div class="bg-gradient-to-r from-nnm-700 to-nnm-600 text-white p-8 text-center">
                     <span class="bg-gold-500 text-nnm-900 text-xs font-black uppercase px-3 py-1 rounded-full">New Member Onboarding</span>
@@ -394,43 +410,43 @@
                 </div>
 
                 <!-- Registration Form -->
-                <form id="membership-form" onsubmit="handleRegistration(event)" class="p-8 space-y-8 bg-white/95 backdrop-blur-sm">
+                <form id="membership-form" onsubmit="handleRegistration(event)" class="p-8 space-y-8 bg-white/95 dark:bg-nnm-800/95 backdrop-blur-sm">
                     <!-- Section A: Personal Information -->
                     <div>
-                        <h3 class="text-lg font-bold text-nnm-700 mb-4 pb-2 border-b border-gray-200 flex items-center gap-2">
+                        <h3 class="text-lg font-bold text-nnm-700 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-green-900 flex items-center gap-2">
                             <i class="fa-solid fa-user-pen text-gold-500"></i> Personal Information
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">First Name *</label>
-                                <input type="text" id="reg-firstname" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="e.g. Oluwaseun">
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">First Name *</label>
+                                <input type="text" id="reg-firstname" required class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-green-900 dark:bg-nnm-700 dark:text-white focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="e.g. Oluwaseun">
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Middle Name</label>
-                                <input type="text" id="reg-middlename" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="Optional">
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Middle Name</label>
+                                <input type="text" id="reg-middlename" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-green-900 dark:bg-nnm-700 dark:text-white focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="Optional">
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Surname *</label>
-                                <input type="text" id="reg-surname" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="e.g. Chukwu">
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Surname *</label>
+                                <input type="text" id="reg-surname" required class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-green-900 dark:bg-nnm-700 dark:text-white focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="e.g. Chukwu">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Date of Birth *</label>
-                                <input type="date" id="reg-dob" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none">
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Date of Birth *</label>
+                                <input type="date" id="reg-dob" required class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-green-900 dark:bg-nnm-700 dark:text-white focus:ring-2 focus:ring-nnm-600 focus:outline-none">
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Gender *</label>
-                                <select id="reg-gender" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none">
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Gender *</label>
+                                <select id="reg-gender" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-green-900 dark:bg-nnm-700 dark:text-white focus:ring-2 focus:ring-nnm-600 focus:outline-none">
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Membership Category *</label>
-                                <select id="reg-category" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none">
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Membership Category *</label>
+                                <select id="reg-category" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-green-900 dark:bg-nnm-700 dark:text-white focus:ring-2 focus:ring-nnm-600 focus:outline-none">
                                     <option value="Ordinary Member">Ordinary Member</option>
                                     <option value="Youth Member">Youth Member</option>
                                     <option value="Student Member">Student Member</option>
@@ -443,53 +459,53 @@
 
                     <!-- Section B: Biometric Identification & Voting Status (NIN & PVC) -->
                     <div>
-                        <h3 class="text-lg font-bold text-nnm-700 mb-4 pb-2 border-b border-gray-200 flex items-center gap-2">
+                        <h3 class="text-lg font-bold text-nnm-700 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-green-900 flex items-center gap-2">
                             <i class="fa-solid fa-fingerprint text-gold-500"></i> Verification & Voting Status (NIN & PVC)
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">National Identification Number (NIN) *</label>
-                                <input type="text" id="reg-nin" required maxlength="11" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none font-mono" placeholder="11-digit NIN Number">
-                                <span class="text-[11px] text-gray-500 mt-1 block">Required for secure biometric verification & NDPA compliance.</span>
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">National Identification Number (NIN) *</label>
+                                <input type="text" id="reg-nin" required maxlength="11" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-green-900 dark:bg-nnm-700 dark:text-white focus:ring-2 focus:ring-nnm-600 focus:outline-none font-mono" placeholder="11-digit NIN Number">
+                                <span class="text-[11px] text-gray-500 dark:text-gray-400 mt-1 block">Required for secure biometric verification & NDPA compliance.</span>
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Do you have your Permanent Voter's Card (PVC)? *</label>
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Do you have your Permanent Voter's Card (PVC)? *</label>
                                 <div class="flex items-center gap-6 mt-3">
-                                    <label class="flex items-center gap-2 font-medium text-sm cursor-pointer">
+                                    <label class="flex items-center gap-2 font-medium text-sm cursor-pointer dark:text-gray-300">
                                         <input type="radio" name="reg-pvc" value="Yes" checked class="w-4 h-4 text-nnm-600 focus:ring-nnm-500"> Yes
                                     </label>
-                                    <label class="flex items-center gap-2 font-medium text-sm cursor-pointer">
+                                    <label class="flex items-center gap-2 font-medium text-sm cursor-pointer dark:text-gray-300">
                                         <input type="radio" name="reg-pvc" value="No" class="w-4 h-4 text-nnm-600 focus:ring-nnm-500"> No
                                     </label>
-                                    <label class="flex items-center gap-2 font-medium text-sm cursor-pointer">
+                                    <label class="flex items-center gap-2 font-medium text-sm cursor-pointer dark:text-gray-300">
                                         <input type="radio" name="reg-pvc" value="In Progress" class="w-4 h-4 text-nnm-600 focus:ring-nnm-500"> In Progress
                                     </label>
                                 </div>
-                                <span class="text-[11px] text-gray-500 mt-1 block">Grassroots mobilization requires active electoral participation.</span>
+                                <span class="text-[11px] text-gray-500 dark:text-gray-400 mt-1 block">Grassroots mobilization requires active electoral participation.</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Section C: Contact & Address -->
                     <div>
-                        <h3 class="text-lg font-bold text-nnm-700 mb-4 pb-2 border-b border-gray-200 flex items-center gap-2">
+                        <h3 class="text-lg font-bold text-nnm-700 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-green-900 flex items-center gap-2">
                             <i class="fa-solid fa-location-dot text-gold-500"></i> Contact & Geographical Location
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Phone Number (WhatsApp) *</label>
-                                <input type="tel" id="reg-phone" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="e.g. 08031234567">
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Phone Number (WhatsApp) *</label>
+                                <input type="tel" id="reg-phone" required class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-green-900 dark:bg-nnm-700 dark:text-white focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="e.g. 08031234567">
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Email Address *</label>
-                                <input type="email" id="reg-email" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="comrade@newnigeria.org">
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Email Address *</label>
+                                <input type="email" id="reg-email" required class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-green-900 dark:bg-nnm-700 dark:text-white focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="comrade@newnigeria.org">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">State of Residence *</label>
-                                <select id="reg-state" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none">
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">State of Residence *</label>
+                                <select id="reg-state" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-green-900 dark:bg-nnm-700 dark:text-white focus:ring-2 focus:ring-nnm-600 focus:outline-none">
                                     <option value="Lagos">Lagos State</option>
                                     <option value="Abuja">Federal Capital Territory (FCT)</option>
                                     <option value="Kano">Kano State</option>
@@ -501,25 +517,25 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Local Government Area (LGA) *</label>
-                                <input type="text" id="reg-lga" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="e.g. Ikeja">
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Local Government Area (LGA) *</label>
+                                <input type="text" id="reg-lga" required class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-green-900 dark:bg-nnm-700 dark:text-white focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="e.g. Ikeja">
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Ward *</label>
-                                <input type="text" id="reg-ward" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="e.g. Ward A / Alausa">
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Ward *</label>
+                                <input type="text" id="reg-ward" required class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-green-900 dark:bg-nnm-700 dark:text-white focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="e.g. Ward A / Alausa">
                             </div>
                         </div>
 
                         <div class="mt-4">
-                            <label class="block text-sm font-bold text-gray-700 mb-1">Residential Address *</label>
-                            <input type="text" id="reg-address" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="Street Address">
+                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Residential Address *</label>
+                            <input type="text" id="reg-address" required class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-green-900 dark:bg-nnm-700 dark:text-white focus:ring-2 focus:ring-nnm-600 focus:outline-none" placeholder="Street Address">
                         </div>
                     </div>
 
                     <!-- Consent & Submit -->
-                    <div class="bg-nnm-50 p-4 rounded-xl border border-green-100 flex items-start gap-3">
+                    <div class="bg-nnm-50 dark:bg-nnm-700 p-4 rounded-xl border border-green-100 dark:border-green-800 flex items-start gap-3">
                         <input type="checkbox" id="reg-consent" required class="mt-1 w-5 h-5 text-nnm-600 rounded border-gray-300 focus:ring-nnm-500">
-                        <label for="reg-consent" class="text-xs text-gray-700 leading-relaxed font-medium">
+                        <label for="reg-consent" class="text-xs text-gray-700 dark:text-gray-200 leading-relaxed font-medium">
                             I hereby confirm that the information provided is accurate and voluntarily given in accordance with the Nigeria Data Protection Act (NDPA 2023). I commit to abide by the constitution and ethical codes of the New Nigeria Movement.
                         </label>
                     </div>
@@ -536,35 +552,35 @@
         <!-- ================= 6. MEMBER DASHBOARD TAB ================= -->
         <div id="tab-member" class="tab-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-fade-in">
             <!-- Top Alert Banner -->
-            <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="bg-white dark:bg-nnm-800 p-6 rounded-3xl shadow-xl border border-gray-200 dark:border-green-900 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div class="flex items-center space-x-4">
                     <div id="member-avatar-initials" class="w-16 h-16 rounded-full bg-nnm-700 text-gold-500 text-2xl font-black flex items-center justify-center shadow-md">
                         OC
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
-                            <h2 id="member-display-name" class="text-2xl font-black text-nnm-700">Comrade Oluwaseun Chukwu</h2>
-                            <span class="bg-green-100 text-green-800 text-xs font-bold px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-circle-check text-green-600 mr-1"></i> Verified Member</span>
+                            <h2 id="member-display-name" class="text-2xl font-black text-nnm-700 dark:text-white">Comrade Oluwaseun Chukwu</h2>
+                            <span class="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 text-xs font-bold px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-circle-check text-green-600 mr-1"></i> Verified Member</span>
                         </div>
-                        <p id="member-display-id" class="text-sm font-mono text-gray-500 mt-0.5">Membership Number: <span class="font-bold text-nnm-600">PM/NIG/LA/001245</span></p>
+                        <p id="member-display-id" class="text-sm font-mono text-gray-500 dark:text-gray-400 mt-0.5">Membership Number: <span class="font-bold text-nnm-600 dark:text-gold-400">PM/NIG/LA/001245</span></p>
                     </div>
                 </div>
                 <div class="flex gap-3">
-                    <button onclick="switchTab('register')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-4 py-2.5 rounded-xl text-sm transition">Edit Profile</button>
-                    <button onclick="alertBox('Logged out of Member Portal.')" class="bg-red-50 hover:bg-red-100 text-red-600 font-bold px-4 py-2.5 rounded-xl text-sm transition">Logout</button>
+                    <button onclick="switchTab('register')" class="bg-gray-100 dark:bg-nnm-700 hover:bg-gray-200 dark:hover:bg-nnm-600 text-gray-700 dark:text-gray-200 font-bold px-4 py-2.5 rounded-xl text-sm transition">Edit Profile</button>
+                    <button onclick="alertBox('Logged out of Member Portal.')" class="bg-red-50 hover:bg-red-950 text-red-600 dark:text-red-300 font-bold px-4 py-2.5 rounded-xl text-sm transition">Logout</button>
                 </div>
             </div>
 
             <!-- Dashboard Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Left: Digital ID Card Preview & Download with Logo & Thumbprint Texture -->
-                <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200">
-                    <h3 class="text-lg font-bold text-nnm-700 mb-4 flex items-center gap-2">
+                <div class="bg-white dark:bg-nnm-800 p-6 rounded-3xl shadow-xl border border-gray-200 dark:border-green-900">
+                    <h3 class="text-lg font-bold text-nnm-700 dark:text-white mb-4 flex items-center gap-2">
                         <i class="fa-solid fa-id-card text-gold-500"></i> Digital Membership Card
                     </h3>
                     
                     <!-- ID Card Visual with Thumbprint Watermark & Official Logo -->
-                    <div id="digital-id-card" class="bg-gradient-to-br from-nnm-700 via-nnm-800 to-nnm-900 text-white p-6 rounded-2xl shadow-2xl relative overflow-hidden border-2 border-gold-500 fingerprint-pattern">
+                    <div id="digital-id-card" class="bg-gradient-to-br from-nnm-700 via-nnm-800 to-nnm-900 text-white p-6 rounded-2xl shadow-2xl relative overflow-hidden border-2 border-gold-500 fingerprint-pattern-dark">
                         <div class="absolute inset-0 opacity-10 flex items-center justify-center pointer-events-none">
                             <i class="fa-solid fa-fingerprint text-9xl text-white"></i>
                         </div>
@@ -603,7 +619,7 @@
                         <button onclick="alertBox('Digital Membership Card downloaded successfully as Secure PDF with biometric QR authentication.')" class="flex-1 bg-nnm-700 hover:bg-nnm-800 text-white font-bold py-3 px-4 rounded-xl text-sm transition shadow flex items-center justify-center gap-2">
                             <i class="fa-solid fa-download"></i> Download PDF
                         </button>
-                        <button onclick="alertBox('Verification QR code copied to clipboard.')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-4 rounded-xl text-sm transition">
+                        <button onclick="alertBox('Verification QR code copied to clipboard.')" class="bg-gray-100 dark:bg-nnm-700 hover:bg-gray-200 dark:hover:bg-nnm-600 text-gray-700 dark:text-gray-200 font-bold py-3 px-4 rounded-xl text-sm transition">
                             <i class="fa-solid fa-qrcode"></i>
                         </button>
                     </div>
@@ -612,15 +628,15 @@
                 <!-- Right: Financials, Dues & Support -->
                 <div class="lg:col-span-2 space-y-8">
                     <!-- Dues & Billing Card -->
-                    <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200">
-                        <h3 class="text-lg font-bold text-nnm-700 mb-4 flex items-center justify-between">
+                    <div class="bg-white dark:bg-nnm-800 p-6 rounded-3xl shadow-xl border border-gray-200 dark:border-green-900">
+                        <h3 class="text-lg font-bold text-nnm-700 dark:text-white mb-4 flex items-center justify-between">
                             <span><i class="fa-solid fa-wallet text-gold-500 mr-2"></i> Membership Dues & Billing</span>
-                            <span class="text-xs bg-yellow-100 text-gold-800 px-2.5 py-1 rounded-full font-bold">1 Pending Invoice</span>
+                            <span class="text-xs bg-yellow-100 text-gold-800 dark:bg-yellow-900 dark:text-yellow-200 px-2.5 py-1 rounded-full font-bold">1 Pending Invoice</span>
                         </h3>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left border-collapse">
                                 <thead>
-                                    <tr class="border-b text-xs text-gray-500 uppercase">
+                                    <tr class="border-b dark:border-green-900 text-xs text-gray-500 dark:text-gray-400 uppercase">
                                         <th class="py-3 px-4">Description</th>
                                         <th class="py-3 px-4">Amount</th>
                                         <th class="py-3 px-4">Status</th>
@@ -628,20 +644,20 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-sm">
-                                    <tr class="border-b hover:bg-gray-50">
-                                        <td class="py-3 px-4 font-semibold text-gray-700">2026 Annual Membership Dues</td>
-                                        <td class="py-3 px-4 font-bold text-nnm-700">₦5,000</td>
-                                        <td class="py-3 px-4"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full font-bold">Unpaid</span></td>
+                                    <tr class="border-b dark:border-green-900 hover:bg-gray-50 dark:hover:bg-nnm-700">
+                                        <td class="py-3 px-4 font-semibold text-gray-700 dark:text-gray-200">2026 Annual Membership Dues</td>
+                                        <td class="py-3 px-4 font-bold text-nnm-700 dark:text-gold-400">₦5,000</td>
+                                        <td class="py-3 px-4"><span class="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 text-xs px-2 py-0.5 rounded-full font-bold">Unpaid</span></td>
                                         <td class="py-3 px-4 text-right">
                                             <button onclick="payDues('₦5,000 Annual Dues')" class="bg-gold-500 hover:bg-yellow-400 text-nnm-900 font-extrabold px-4 py-1.5 rounded-lg text-xs shadow transition">Pay Now</button>
                                         </td>
                                     </tr>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="py-3 px-4 font-semibold text-gray-700">Movement Foundation Registration</td>
-                                        <td class="py-3 px-4 font-bold text-nnm-700">₦1,000</td>
-                                        <td class="py-3 px-4"><span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full font-bold">Paid</span></td>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-nnm-700">
+                                        <td class="py-3 px-4 font-semibold text-gray-700 dark:text-gray-200">Movement Foundation Registration</td>
+                                        <td class="py-3 px-4 font-bold text-nnm-700 dark:text-gold-400">₦1,000</td>
+                                        <td class="py-3 px-4"><span class="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 text-xs px-2 py-0.5 rounded-full font-bold">Paid</span></td>
                                         <td class="py-3 px-4 text-right">
-                                            <button onclick="alertBox('Receipt downloaded: NNM-REC-99824')" class="text-nnm-600 hover:underline font-bold text-xs">Receipt</button>
+                                            <button onclick="alertBox('Receipt downloaded: NNM-REC-99824')" class="text-nnm-600 dark:text-green-400 hover:underline font-bold text-xs">Receipt</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -651,26 +667,26 @@
 
                     <!-- Announcements & Support Tickets -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200">
-                            <h3 class="text-md font-bold text-nnm-700 mb-4 flex items-center gap-2">
+                        <div class="bg-white dark:bg-nnm-800 p-6 rounded-3xl shadow-xl border border-gray-200 dark:border-green-900">
+                            <h3 class="text-md font-bold text-nnm-700 dark:text-white mb-4 flex items-center gap-2">
                                 <i class="fa-solid fa-bell text-gold-500"></i> Member Inbox
                             </h3>
                             <div class="space-y-3">
-                                <div class="p-3 bg-gray-50 rounded-xl border">
+                                <div class="p-3 bg-gray-50 dark:bg-nnm-700 rounded-xl border dark:border-green-800">
                                     <span class="text-[10px] text-gray-400 block font-semibold">Today, 10:30 AM</span>
-                                    <h4 class="text-xs font-bold text-nnm-700">Lagos State Chapter Meeting</h4>
-                                    <p class="text-xs text-gray-600 mt-0.5 font-normal">All registered comrades in Ikeja LGA are invited to the emergency mobilization briefing this Saturday.</p>
+                                    <h4 class="text-xs font-bold text-nnm-700 dark:text-white">Lagos State Chapter Meeting</h4>
+                                    <p class="text-xs text-gray-600 dark:text-gray-300 mt-0.5 font-normal">All registered comrades in Ikeja LGA are invited to the emergency mobilization briefing this Saturday.</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200">
-                            <h3 class="text-md font-bold text-nnm-700 mb-4 flex items-center gap-2">
+                        <div class="bg-white dark:bg-nnm-800 p-6 rounded-3xl shadow-xl border border-gray-200 dark:border-green-900">
+                            <h3 class="text-md font-bold text-nnm-700 dark:text-white mb-4 flex items-center gap-2">
                                 <i class="fa-solid fa-headset text-gold-500"></i> Support & Helpdesk
                             </h3>
                             <form onsubmit="handleSupportTicket(event)" class="space-y-3">
-                                <input type="text" id="ticket-subject" required placeholder="Subject / Complaint" class="w-full px-3 py-2 text-xs rounded-xl border border-gray-300 focus:outline-none focus:ring-1 focus:ring-nnm-600">
-                                <textarea id="ticket-message" required placeholder="Describe your inquiry..." class="w-full px-3 py-2 text-xs rounded-xl border border-gray-300 focus:outline-none focus:ring-1 focus:ring-nnm-600 h-20"></textarea>
+                                <input type="text" id="ticket-subject" required placeholder="Subject / Complaint" class="w-full px-3 py-2 text-xs rounded-xl border border-gray-300 dark:border-green-900 dark:bg-nnm-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-nnm-600">
+                                <textarea id="ticket-message" required placeholder="Describe your inquiry..." class="w-full px-3 py-2 text-xs rounded-xl border border-gray-300 dark:border-green-900 dark:bg-nnm-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-nnm-600 h-20"></textarea>
                                 <button type="submit" class="w-full bg-nnm-700 hover:bg-nnm-800 text-white font-bold py-2 rounded-xl text-xs transition shadow">Submit Support Ticket</button>
                             </form>
                         </div>
@@ -684,59 +700,59 @@
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                 <div>
                     <span class="bg-nnm-700 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">Restricted Admin HQ</span>
-                    <h1 class="text-3xl font-black text-nnm-700 mt-2">National Administrative Dashboard</h1>
-                    <p class="text-gray-600 text-sm">Central oversight of membership approvals, financials, and chapter activities.</p>
+                    <h1 class="text-3xl font-black text-nnm-700 dark:text-white mt-2">National Administrative Dashboard</h1>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm">Central oversight of membership approvals, financials, and chapter activities.</p>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="alertBox('Exporting comprehensive audit report as Excel...')" class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-bold px-4 py-2.5 rounded-xl text-sm transition shadow-sm"><i class="fa-solid fa-file-excel mr-1 text-green-600"></i> Export Reports</button>
+                    <button onclick="alertBox('Exporting comprehensive audit report as Excel...')" class="bg-white dark:bg-nnm-800 border border-gray-300 dark:border-green-900 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-nnm-700 font-bold px-4 py-2.5 rounded-xl text-sm transition shadow-sm"><i class="fa-solid fa-file-excel mr-1 text-green-600"></i> Export Reports</button>
                     <button onclick="alertBox('Security system check passed. All nodes secure.')" class="bg-nnm-700 hover:bg-nnm-800 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition shadow"><i class="fa-solid fa-shield-halved mr-1"></i> Security Audit</button>
                 </div>
             </div>
 
             <!-- Stats Cards Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200 transform hover:scale-105 transition">
-                    <span class="text-xs text-gray-500 font-bold uppercase tracking-wider block">Total Members</span>
+                <div class="bg-white dark:bg-nnm-800 p-6 rounded-3xl shadow-xl border border-gray-200 dark:border-green-900 transform hover:scale-105 transition">
+                    <span class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider block">Total Members</span>
                     <div class="flex items-baseline justify-between mt-2">
-                        <span id="admin-total-members" class="text-3xl font-black text-nnm-700">1,245,891</span>
-                        <span class="text-xs text-green-600 font-bold bg-green-50 px-2 py-0.5 rounded-full"><i class="fa-solid fa-arrow-up"></i> +12% this week</span>
+                        <span id="admin-total-members" class="text-3xl font-black text-nnm-700 dark:text-white">1,245,891</span>
+                        <span class="text-xs text-green-600 font-bold bg-green-50 dark:bg-green-900 dark:text-green-300 px-2 py-0.5 rounded-full"><i class="fa-solid fa-arrow-up"></i> +12% this week</span>
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200 transform hover:scale-105 transition">
-                    <span class="text-xs text-gray-500 font-bold uppercase tracking-wider block">Pending Applications</span>
+                <div class="bg-white dark:bg-nnm-800 p-6 rounded-3xl shadow-xl border border-gray-200 dark:border-green-900 transform hover:scale-105 transition">
+                    <span class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider block">Pending Applications</span>
                     <div class="flex items-baseline justify-between mt-2">
-                        <span id="admin-pending-count" class="text-3xl font-black text-gold-600">3</span>
-                        <span class="text-xs text-gold-600 font-bold bg-yellow-50 px-2 py-0.5 rounded-full">Requires Review</span>
+                        <span id="admin-pending-count" class="text-3xl font-black text-gold-600 dark:text-gold-400">3</span>
+                        <span class="text-xs text-gold-600 font-bold bg-yellow-50 dark:bg-yellow-900 dark:text-yellow-200 px-2 py-0.5 rounded-full">Requires Review</span>
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200 transform hover:scale-105 transition">
-                    <span class="text-xs text-gray-500 font-bold uppercase tracking-wider block">Total Dues Collected</span>
+                <div class="bg-white dark:bg-nnm-800 p-6 rounded-3xl shadow-xl border border-gray-200 dark:border-green-900 transform hover:scale-105 transition">
+                    <span class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider block">Total Dues Collected</span>
                     <div class="flex items-baseline justify-between mt-2">
-                        <span class="text-3xl font-black text-nnm-700">₦48.25M</span>
-                        <span class="text-xs text-green-600 font-bold bg-green-50 px-2 py-0.5 rounded-full">Audited</span>
+                        <span class="text-3xl font-black text-nnm-700 dark:text-white">₦48.25M</span>
+                        <span class="text-xs text-green-600 font-bold bg-green-50 dark:bg-green-900 dark:text-green-300 px-2 py-0.5 rounded-full">Audited</span>
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200 transform hover:scale-105 transition">
-                    <span class="text-xs text-gray-500 font-bold uppercase tracking-wider block">Active Chapters</span>
+                <div class="bg-white dark:bg-nnm-800 p-6 rounded-3xl shadow-xl border border-gray-200 dark:border-green-900 transform hover:scale-105 transition">
+                    <span class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider block">Active Chapters</span>
                     <div class="flex items-baseline justify-between mt-2">
-                        <span class="text-3xl font-black text-nnm-700">8,849</span>
-                        <span class="text-xs text-blue-600 font-bold bg-blue-50 px-2 py-0.5 rounded-full">States + LGAs</span>
+                        <span class="text-3xl font-black text-nnm-700 dark:text-white">8,849</span>
+                        <span class="text-xs text-blue-600 font-bold bg-blue-50 dark:bg-blue-900 dark:text-blue-200 px-2 py-0.5 rounded-full">States + LGAs</span>
                     </div>
                 </div>
             </div>
 
             <!-- Membership Approval Management Table -->
-            <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-200 mb-8">
+            <div class="bg-white dark:bg-nnm-800 p-6 rounded-3xl shadow-xl border border-gray-200 dark:border-green-900 mb-8">
                 <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-lg font-bold text-nnm-700 flex items-center gap-2">
+                    <h3 class="text-lg font-bold text-nnm-700 dark:text-white flex items-center gap-2">
                         <i class="fa-solid fa-users-gear text-gold-500"></i> Pending Membership Approvals (NIN & PVC Verified)
                     </h3>
-                    <span class="text-xs text-gray-500">Review applicant information against movement bylaws</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">Review applicant information against movement bylaws</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="border-b text-xs text-gray-500 uppercase bg-gray-50">
+                            <tr class="border-b dark:border-green-900 text-xs text-gray-500 dark:text-gray-400 uppercase bg-gray-50 dark:bg-nnm-700">
                                 <th class="py-3 px-4">Applicant Name</th>
                                 <th class="py-3 px-4">NIN / PVC Status</th>
                                 <th class="py-3 px-4">State / LGA</th>
@@ -745,24 +761,24 @@
                             </tr>
                         </thead>
                         <tbody id="admin-pending-table" class="text-sm">
-                            <tr class="border-b hover:bg-gray-50 transition">
-                                <td class="py-3 px-4 font-bold text-gray-800">Ibrahim Danladi</td>
-                                <td class="py-3 px-4"><span class="font-mono text-xs text-gray-600 block">23489123891</span><span class="text-[10px] bg-green-100 text-green-800 px-2 py-0.5 rounded font-bold">PVC: Yes</span></td>
-                                <td class="py-3 px-4">Kano / Municipal</td>
-                                <td class="py-3 px-4">08065544332</td>
+                            <tr class="border-b dark:border-green-900 hover:bg-gray-50 dark:hover:bg-nnm-700 transition">
+                                <td class="py-3 px-4 font-bold text-gray-800 dark:text-gray-200">Ibrahim Danladi</td>
+                                <td class="py-3 px-4"><span class="font-mono text-xs text-gray-600 dark:text-gray-400 block">23489123891</span><span class="text-[10px] bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 px-2 py-0.5 rounded font-bold">PVC: Yes</span></td>
+                                <td class="py-3 px-4 dark:text-gray-300">Kano / Municipal</td>
+                                <td class="py-3 px-4 dark:text-gray-300">08065544332</td>
                                 <td class="py-3 px-4 text-right space-x-2">
                                     <button onclick="approveMember(this)" class="bg-green-600 hover:bg-green-700 text-white font-bold px-3 py-1 rounded-lg text-xs shadow">Approve</button>
-                                    <button onclick="rejectMember(this)" class="bg-red-100 hover:bg-red-200 text-red-700 font-bold px-3 py-1 rounded-lg text-xs">Reject</button>
+                                    <button onclick="rejectMember(this)" class="bg-red-100 hover:bg-red-950 text-red-700 dark:text-red-300 font-bold px-3 py-1 rounded-lg text-xs">Reject</button>
                                 </td>
                             </tr>
-                            <tr class="border-b hover:bg-gray-50 transition">
-                                <td class="py-3 px-4 font-bold text-gray-800">Grace Okon</td>
-                                <td class="py-3 px-4"><span class="font-mono text-xs text-gray-600 block">19823471923</span><span class="text-[10px] bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded font-bold">PVC: In Progress</span></td>
-                                <td class="py-3 px-4">Rivers / Port Harcourt</td>
-                                <td class="py-3 px-4">08021122334</td>
+                            <tr class="border-b dark:border-green-900 hover:bg-gray-50 dark:hover:bg-nnm-700 transition">
+                                <td class="py-3 px-4 font-bold text-gray-800 dark:text-gray-200">Grace Okon</td>
+                                <td class="py-3 px-4"><span class="font-mono text-xs text-gray-600 dark:text-gray-400 block">19823471923</span><span class="text-[10px] bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 px-2 py-0.5 rounded font-bold">PVC: In Progress</span></td>
+                                <td class="py-3 px-4 dark:text-gray-300">Rivers / Port Harcourt</td>
+                                <td class="py-3 px-4 dark:text-gray-300">08021122334</td>
                                 <td class="py-3 px-4 text-right space-x-2">
                                     <button onclick="approveMember(this)" class="bg-green-600 hover:bg-green-700 text-white font-bold px-3 py-1 rounded-lg text-xs shadow">Approve</button>
-                                    <button onclick="rejectMember(this)" class="bg-red-100 hover:bg-red-200 text-red-700 font-bold px-3 py-1 rounded-lg text-xs">Reject</button>
+                                    <button onclick="rejectMember(this)" class="bg-red-100 hover:bg-red-950 text-red-700 dark:text-red-300 font-bold px-3 py-1 rounded-lg text-xs">Reject</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -775,12 +791,12 @@
 
     <!-- Custom Modal for Notifications / Alerts -->
     <div id="custom-modal" class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl text-center border-t-4 border-gold-500">
-            <div class="w-16 h-16 bg-nnm-50 text-nnm-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 animate-bounce">
+        <div class="bg-white dark:bg-nnm-800 rounded-3xl max-w-md w-full p-6 shadow-2xl text-center border-t-4 border-gold-500">
+            <div class="w-16 h-16 bg-nnm-50 dark:bg-nnm-700 text-nnm-600 dark:text-green-400 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 animate-bounce">
                 <i class="fa-solid fa-circle-check"></i>
             </div>
-            <h3 class="text-xl font-black text-nnm-700 mb-2">New Nigeria Movement</h3>
-            <p id="modal-message" class="text-gray-600 text-sm mb-6 font-normal">Action completed successfully.</p>
+            <h3 class="text-xl font-black text-nnm-700 dark:text-white mb-2">New Nigeria Movement</h3>
+            <p id="modal-message" class="text-gray-600 dark:text-gray-300 text-sm mb-6 font-normal">Action completed successfully.</p>
             <button onclick="closeModal()" class="w-full bg-nnm-700 hover:bg-nnm-800 text-white font-bold py-3 rounded-xl transition shadow">Continue</button>
         </div>
     </div>
@@ -831,6 +847,50 @@
 
     <!-- JavaScript Application Logic -->
     <script>
+        // Theme Toggle Logic
+        function toggleTheme() {
+            const htmlRoot = document.getElementById('html-root');
+            const appBody = document.getElementById('app-body');
+            const heroPattern = document.getElementById('hero-pattern');
+            const regCardPattern = document.getElementById('reg-card-pattern');
+            const themeIcons = document.querySelectorAll('#theme-icon, .mobile-theme-icon');
+
+            htmlRoot.classList.toggle('dark');
+            const isDark = htmlRoot.classList.contains('dark');
+
+            if (isDark) {
+                appBody.classList.remove('thumbprint-bg-light');
+                appBody.classList.add('thumbprint-bg-dark');
+                if(heroPattern) {
+                    heroPattern.classList.remove('fingerprint-pattern-light');
+                    heroPattern.classList.add('fingerprint-pattern-dark');
+                }
+                if(regCardPattern) {
+                    regCardPattern.classList.remove('fingerprint-pattern-light');
+                    regCardPattern.classList.add('fingerprint-pattern-dark');
+                }
+                themeIcons.forEach(icon => {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                });
+            } else {
+                appBody.classList.remove('thumbprint-bg-dark');
+                appBody.classList.add('thumbprint-bg-light');
+                if(heroPattern) {
+                    heroPattern.classList.remove('fingerprint-pattern-dark');
+                    heroPattern.classList.add('fingerprint-pattern-light');
+                }
+                if(regCardPattern) {
+                    regCardPattern.classList.remove('fingerprint-pattern-dark');
+                    regCardPattern.classList.add('fingerprint-pattern-light');
+                }
+                themeIcons.forEach(icon => {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                });
+            }
+        }
+
         // Tab switching logic
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
@@ -875,7 +935,7 @@
             // Update Member Dashboard values dynamically
             const fullName = `${firstname} ${surname}`;
             document.getElementById('member-display-name').innerText = `Comrade ${fullName}`;
-            document.getElementById('member-display-id').innerHTML = `Membership Number: <span class="font-bold text-nnm-600">${uniqueId}</span>`;
+            document.getElementById('member-display-id').innerHTML = `Membership Number: <span class="font-bold text-nnm-600 dark:text-gold-400">${uniqueId}</span>`;
             document.getElementById('member-avatar-initials').innerText = `${firstname[0]}${surname[0]}`;
             
             // Update Card
